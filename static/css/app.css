@@ -294,7 +294,7 @@ h1, h2, h3, h4, h5, h6,
     background: white;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
-    overflow: hidden;
+    overflow-x: auto;
 }
 
 .data-table table {
@@ -407,9 +407,27 @@ h1, h2, h3, h4, h5, h6,
 
 /* ── Responsive ──────────────────────────────── */
 @media (max-width: 768px) {
-    .sidebar { transform: translateX(-100%); width: var(--sidebar-width); }
+    .sidebar { transform: translateX(-100%); width: var(--sidebar-width); z-index: 50; }
     .sidebar.open { transform: translateX(0); }
     .main-content { margin-left: 0; }
+    .page-content { padding: 1rem; }
+    .stat-card { padding: 1rem; }
+    
+    .sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.4);
+        backdrop-filter: blur(2px);
+        z-index: 45;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .sidebar-backdrop.open {
+        display: block;
+        opacity: 1;
+    }
 }
 
 

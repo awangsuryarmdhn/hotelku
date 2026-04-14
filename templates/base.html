@@ -4,7 +4,7 @@
 <html lang="id" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="MantaHotel — Hotel Property Management System">
     <title>{% block title %}Dashboard{% endblock %} — {{ hotel_name }}</title>
 
@@ -38,15 +38,23 @@
 <body class="min-h-screen bg-slate-100">
     {% csrf_token %}
 
+    <!-- ── Sidebar Backdrop ─────────────────────── -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
     <!-- ── Sidebar ──────────────────────────────── -->
     <aside id="sidebar" class="sidebar">
         <!-- Brand -->
-        <div class="sidebar-brand">
-            <div class="sidebar-brand-icon">M</div>
-            <div>
-                <div class="sidebar-brand-text">{{ hotel_name }}</div>
-                <div class="sidebar-brand-sub">Property Management</div>
+        <div class="sidebar-brand flex justify-between items-center pr-2">
+            <div class="flex items-center gap-3">
+                <div class="sidebar-brand-icon">M</div>
+                <div>
+                    <div class="sidebar-brand-text">{{ hotel_name }}</div>
+                    <div class="sidebar-brand-sub">Property Management</div>
+                </div>
             </div>
+            <button onclick="toggleSidebar()" class="btn btn-circle btn-ghost btn-sm text-slate-400 hover:text-white md:hidden">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
         </div>
 
         <!-- Navigation -->

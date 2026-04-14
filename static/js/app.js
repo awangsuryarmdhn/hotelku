@@ -22,8 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
 // ── Sidebar Toggle (Mobile) ─────────────────────
 function toggleSidebar() {
     var sidebar = document.getElementById('sidebar');
+    var backdrop = document.getElementById('sidebar-backdrop');
     if (sidebar) {
         sidebar.classList.toggle('open');
+    }
+    if (backdrop) {
+        backdrop.classList.toggle('open');
     }
 }
 
