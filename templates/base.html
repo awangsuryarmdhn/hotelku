@@ -1,0 +1,180 @@
+{% load static %}
+{% load manta_tags %}
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MantaHotel — Hotel Property Management System">
+    <title>{% block title %}Dashboard{% endblock %} — {{ hotel_name }}</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="theme-color" content="#0ea5e9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- DaisyUI + Tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="min-h-screen bg-slate-100">
+    {% csrf_token %}
+
+    <!-- ── Sidebar ──────────────────────────────── -->
+    <aside id="sidebar" class="sidebar">
+        <!-- Brand -->
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-icon">M</div>
+            <div>
+                <div class="sidebar-brand-text">{{ hotel_name }}</div>
+                <div class="sidebar-brand-sub">Property Management</div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+            <!-- Overview -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Overview</div>
+                <a href="{% url 'dashboard:index' %}" class="sidebar-link {% active_nav request '^/$' %}">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+
+            <!-- Operations -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Operations</div>
+                <a href="{% url 'frontdesk:board' %}" class="sidebar-link {% active_nav request 'frontdesk' %}">
+                    <i data-lucide="concierge-bell"></i>
+                    <span>Front Desk</span>
+                </a>
+                <a href="{% url 'reservations:list' %}" class="sidebar-link {% active_nav request 'reservations' %}">
+                    <i data-lucide="calendar-check"></i>
+                    <span>Reservations</span>
+                </a>
+                <a href="{% url 'rooms:list' %}" class="sidebar-link {% active_nav request 'rooms' %}">
+                    <i data-lucide="bed-double"></i>
+                    <span>Rooms</span>
+                </a>
+                <a href="{% url 'guests:list' %}" class="sidebar-link {% active_nav request 'guests' %}">
+                    <i data-lucide="users"></i>
+                    <span>Guests</span>
+                </a>
+            </div>
+
+            <!-- Services -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Services</div>
+                <a href="{% url 'housekeeping:board' %}" class="sidebar-link {% active_nav request 'housekeeping' %}">
+                    <i data-lucide="sparkles"></i>
+                    <span>Housekeeping</span>
+                </a>
+                <a href="{% url 'billing:list' %}" class="sidebar-link {% active_nav request 'billing' %}">
+                    <i data-lucide="receipt"></i>
+                    <span>Billing</span>
+                </a>
+                <a href="{% url 'pos:terminal' %}" class="sidebar-link {% active_nav request 'pos' %}">
+                    <i data-lucide="utensils-crossed"></i>
+                    <span>POS Terminal</span>
+                </a>
+                <a href="{% url 'inventory:list' %}" class="sidebar-link {% active_nav request 'inventory' %}">
+                    <i data-lucide="package"></i>
+                    <span>Inventory</span>
+                </a>
+            </div>
+
+            <!-- Insights -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Insights</div>
+                <a href="{% url 'reports:index' %}" class="sidebar-link {% active_nav request 'reports' %}">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span>Reports</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- ── Main Content ─────────────────────────── -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="btn btn-ghost btn-sm lg:hidden">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+                <h1 class="topbar-title">{% block page_title %}Dashboard{% endblock %}</h1>
+            </div>
+
+            <div class="flex items-center gap-3">
+                {% block page_actions %}{% endblock %}
+
+                <!-- User Menu -->
+                <div class="dropdown dropdown-end" x-data="{ open: false }">
+                    <button @click="open = !open" class="btn btn-ghost btn-circle">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white font-bold text-sm">
+                            {{ user.initials }}
+                        </div>
+                    </button>
+                    <ul x-show="open" @click.away="open = false"
+                        class="dropdown-content z-50 menu p-2 shadow-lg bg-white rounded-xl w-56 border border-slate-200"
+                        x-transition>
+                        <li class="menu-title px-3 py-2">
+                            <span class="text-slate-900 font-semibold">{{ user.display_name }}</span>
+                            <span class="text-xs text-slate-500">{{ user.role|title }}</span>
+                        </li>
+                        <li><a href="{% url 'accounts:profile' %}"><i data-lucide="user" class="w-4 h-4"></i> Profile</a></li>
+                        <li><a href="{% url 'admin:index' %}" target="_blank"><i data-lucide="settings" class="w-4 h-4"></i> Admin Panel</a></li>
+                        <div class="divider my-1"></div>
+                        <li>
+                            <form method="post" action="{% url 'accounts:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full text-left text-red-600">
+                                    <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Toast Messages -->
+            {% if messages %}
+            <div class="toast-container">
+                {% for message in messages %}
+                <div class="toast-item alert alert-{{ message.tags }} shadow-lg">
+                    <span>{{ message }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

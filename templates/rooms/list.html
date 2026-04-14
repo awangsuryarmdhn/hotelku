@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}Rooms{% endblock %}
+{% block page_title %}Room Management{% endblock %}
+
+{% block page_actions %}
+<div class="flex gap-2">
+    <a href="{% url 'rooms:grid' %}" class="btn btn-ghost btn-sm gap-1 rounded-lg">
+        <i data-lucide="grid-3x3" class="w-4 h-4"></i> Grid View
+    </a>
+    <a href="{% url 'rooms:create' %}" class="btn btn-manta btn-sm gap-1 rounded-lg">
+        <i data-lucide="plus" class="w-4 h-4"></i> Add Room
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Filters -->
+<div class="bg-white rounded-xl border border-slate-200 p-4 mb-6">
+    <form method="get" class="flex flex-wrap gap-3 items-end"
+          hx-get="{% url 'rooms:list' %}" hx-target="#room-table" hx-push-url="true">
+        <div class="form-control">
+            <label class="label label-text text-xs font-semibold text-slate-500">Status</label>
+            <select name="status" class="select select-bordered select-sm w-40">
+                <option value="">All Status</option>
+                <option value="available" {% if current_status == "available" %}selected{% endif %}>Available</option>
+                <option value="occupied" {% if current_status == "occupied" %}selected{% endif %}>Occupied</option>
+                <option value="dirty" {% if current_status == "dirty" %}selected{% endif %}>Dirty</option>
+                <option value="maintenance" {% if current_status == "maintenance" %}selected{% endif %}>Maintenance</option>
+            </select>
+        </div>
+        <div class="form-control">
+            <label class="label label-text text-xs font-semibold text-slate-500">Type</label>
+            <select name="type" class="select select-bordered select-sm w-40">
+                <option value="">All Types</option>
+                {% for rt in room_types %}
+                <option value="{{ rt.pk }}" {% if current_type == rt.pk|slugify %}selected{% endif %}>{{ rt.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-control">
+            <label class="label label-text text-xs font-semibold text-slate-500">Floor</label>
+            <select name="floor" class="select select-bordered select-sm w-32">
+                <option value="">All Floors</option>
+                {% for f in floors %}
+                <option value="{{ f }}" {% if current_floor == f|slugify %}selected{% endif %}>Floor {{ f }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-sm btn-ghost">
+            <i data-lucide="filter" class="w-4 h-4"></i> Filter
+        </button>
+    </form>
+</div>
+
+<!-- Room Table -->
+<div id="room-table" class="data-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Room</th>
+                <th>Type</th>
+                <th>Floor</th>
+                <th>Status</th>
+                <th>Rate / Night</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td>
+                    <span class="font-heading font-bold text-base text-slate-900">{{ room.room_number }}</span>
+                </td>
+                <td>
+                    <span class="font-medium">{{ room.room_type.name }}</span>
+                </td>
+                <td class="text-slate-500">Floor {{ room.floor }}</td>
+                <td>{{ room.status|status_badge }}</td>
+                <td class="font-semibold text-slate-700">{{ room.nightly_rate|idr }}</td>
+                <td>
+                    <div class="flex gap-1">
+                        <a href="{% url 'rooms:edit' room.pk %}" class="btn btn-ghost btn-xs">
+                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <div class="dropdown dropdown-end">
+                            <button tabindex="0" class="btn btn-ghost btn-xs">
+                                <i data-lucide="more-horizontal" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <ul tabindex="0" class="dropdown-content menu p-1 shadow-lg bg-white rounded-lg w-40 border text-sm z-50">
+                                <li>
+                                    <form method="post" action="{% url 'rooms:status_update' room.pk %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="available">
+                                        <button type="submit">Set Available</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form method="post" action="{% url 'rooms:status_update' room.pk %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="maintenance">
+                                        <button type="submit">Set Maintenance</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center py-12 text-slate-400">
+                    <i data-lucide="bed-double" class="w-12 h-12 mx-auto mb-3 opacity-30"></i>
+                    <p class="font-medium">No rooms found</p>
+                    <a href="{% url 'rooms:create' %}" class="btn btn-manta btn-sm mt-3">Add First Room</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

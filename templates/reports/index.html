@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports & Analytics{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Occupancy Report -->
+    <a href="{% url 'reports:occupancy' %}" class="bg-white rounded-xl border border-slate-200 p-6 hover:border-sky-300 hover:shadow-md transition group">
+        <div class="stat-card-icon teal mb-4">
+            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg text-slate-900 group-hover:text-sky-600 transition">Occupancy Report</h3>
+        <p class="text-sm text-slate-500 mt-1">Daily occupancy rates across rooms and floors</p>
+    </a>
+
+    <!-- Revenue Report -->
+    <a href="{% url 'reports:revenue' %}" class="bg-white rounded-xl border border-slate-200 p-6 hover:border-sky-300 hover:shadow-md transition group">
+        <div class="stat-card-icon gold mb-4">
+            <i data-lucide="banknote" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg text-slate-900 group-hover:text-sky-600 transition">Revenue Report</h3>
+        <p class="text-sm text-slate-500 mt-1">Revenue breakdown by source and charge type</p>
+    </a>
+
+    <!-- PB1 Tax Report -->
+    <a href="{% url 'reports:tax' %}" class="bg-white rounded-xl border border-slate-200 p-6 hover:border-sky-300 hover:shadow-md transition group">
+        <div class="stat-card-icon coral mb-4">
+            <i data-lucide="file-text" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg text-slate-900 group-hover:text-sky-600 transition">PB1 Tax Report</h3>
+        <p class="text-sm text-slate-500 mt-1">Monthly tax filing summary for government compliance</p>
+    </a>
+
+    <!-- Guest Demographics -->
+    <a href="{% url 'reports:guests' %}" class="bg-white rounded-xl border border-slate-200 p-6 hover:border-sky-300 hover:shadow-md transition group">
+        <div class="stat-card-icon emerald mb-4">
+            <i data-lucide="globe" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg text-slate-900 group-hover:text-sky-600 transition">Guest Demographics</h3>
+        <p class="text-sm text-slate-500 mt-1">Nationality breakdown and foreign guest reporting</p>
+    </a>
+
+    <!-- Export Guests CSV -->
+    <a href="{% url 'reports:export' 'guests' %}" class="bg-white rounded-xl border border-slate-200 p-6 hover:border-sky-300 hover:shadow-md transition group">
+        <div class="stat-card-icon navy mb-4">
+            <i data-lucide="download" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg text-slate-900 group-hover:text-sky-600 transition">Export Guests</h3>
+        <p class="text-sm text-slate-500 mt-1">Download all guest data as CSV</p>
+    </a>
+
+    <!-- APOA Export -->
+    <a href="{% url 'reports:export' 'foreign_guests' %}" class="bg-white rounded-xl border border-slate-200 p-6 hover:border-sky-300 hover:shadow-md transition group">
+        <div class="stat-card-icon navy mb-4">
+            <i data-lucide="file-spreadsheet" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg text-slate-900 group-hover:text-sky-600 transition">APOA Export</h3>
+        <p class="text-sm text-slate-500 mt-1">Foreign guest data for immigration reporting</p>
+    </a>
+</div>
+{% endblock %}

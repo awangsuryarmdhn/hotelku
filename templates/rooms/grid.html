@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}Room Grid{% endblock %}
+{% block page_title %}Room Grid{% endblock %}
+
+{% block page_actions %}
+<a href="{% url 'rooms:list' %}" class="btn btn-ghost btn-sm gap-1 rounded-lg">
+    <i data-lucide="list" class="w-4 h-4"></i> List View
+</a>
+{% endblock %}
+
+{% block content %}
+<!-- Legend -->
+<div class="flex flex-wrap gap-4 mb-6 bg-white rounded-xl border border-slate-200 p-4">
+    <div class="flex items-center gap-2 text-sm"><div class="w-4 h-4 rounded bg-emerald-200 border-2 border-emerald-300"></div> Available</div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-4 h-4 rounded bg-red-200 border-2 border-red-300"></div> Occupied</div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-4 h-4 rounded bg-amber-200 border-2 border-amber-300"></div> Dirty</div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-4 h-4 rounded bg-blue-200 border-2 border-blue-300"></div> Maintenance</div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-4 h-4 rounded bg-slate-200 border-2 border-slate-300"></div> Out of Order</div>
+</div>
+
+<!-- Floor-by-Floor Grid -->
+{% for floor, rooms in rooms_by_floor.items %}
+<div class="mb-6">
+    <h3 class="font-heading font-bold text-lg text-slate-900 mb-3 flex items-center gap-2">
+        <i data-lucide="layers" class="w-5 h-5 text-sky-500"></i>
+        Floor {{ floor }}
+    </h3>
+    <div class="flex flex-wrap gap-3">
+        {% for room in rooms %}
+        <div class="room-card {{ room.status }}"
+             hx-get="{% url 'rooms:edit' room.pk %}"
+             hx-target="body"
+             hx-push-url="true">
+            <div class="room-card-number">{{ room.room_number }}</div>
+            <div class="room-card-type">{{ room.room_type.name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% empty %}
+<div class="text-center py-16 text-slate-400">
+    <i data-lucide="grid-3x3" class="w-16 h-16 mx-auto mb-4 opacity-30"></i>
+    <p class="text-lg font-medium">No rooms configured yet</p>
+    <a href="{% url 'rooms:create' %}" class="btn btn-manta mt-4">Add Rooms</a>
+</div>
+{% endfor %}
+{% endblock %}

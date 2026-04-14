@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}Billing{% endblock %}
+{% block page_title %}Billing & Invoices{% endblock %}
+
+{% block content %}
+<div class="data-table">
+    <table>
+        <thead><tr>
+            <th>Invoice #</th>
+            <th>Guest</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Total</th>
+            <th>Balance</th>
+            <th>Actions</th>
+        </tr></thead>
+        <tbody>
+            {% for folio in folios %}
+            <tr class="hover:bg-slate-50">
+                <td class="font-mono text-sm font-medium text-sky-600">{{ folio.invoice_number }}</td>
+                <td class="text-sm font-medium">{{ folio.reservation.guest.full_name }}</td>
+                <td>{{ folio.status|status_badge }}</td>
+                <td>{{ folio.payment_status|status_badge }}</td>
+                <td class="text-sm font-semibold">{{ folio.grand_total|idr }}</td>
+                <td class="text-sm font-semibold {% if folio.balance_due > 0 %}text-red-600{% else %}text-emerald-600{% endif %}">{{ folio.balance_due|idr }}</td>
+                <td>
+                    <a href="{% url 'billing:folio_detail' folio.pk %}" class="btn btn-ghost btn-xs">View</a>
+                    <a href="{% url 'billing:invoice' folio.pk %}" class="btn btn-ghost btn-xs" target="_blank"><i data-lucide="printer" class="w-3.5 h-3.5"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="text-center py-12 text-slate-400">No folios yet</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

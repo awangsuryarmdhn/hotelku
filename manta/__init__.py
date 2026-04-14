@@ -1,0 +1,1 @@
+# MantaHotel Django Project

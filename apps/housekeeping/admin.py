@@ -1,0 +1,10 @@
+"""Housekeeping Administration."""
+from django.contrib import admin
+from .models import HousekeepingTask
+
+
+@admin.register(HousekeepingTask)
+class HousekeepingTaskAdmin(admin.ModelAdmin):
+    list_display = ('room', 'task_type', 'status', 'priority', 'assigned_to', 'created_at')
+    list_filter = ('status', 'task_type', 'priority')
+    list_editable = ('status', 'assigned_to')

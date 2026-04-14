@@ -1,0 +1,475 @@
+/*
+ * MantaHotel — Custom Styles
+ * ==========================
+ * Design Language: "Bali Hospitality"
+ * Premium, bold, business-focused UI.
+ * Built on top of DaisyUI + Tailwind.
+ */
+
+/* ── Custom DaisyUI Theme ────────────────────── */
+:root {
+    --manta-navy: #0f172a;
+    --manta-navy-light: #1e293b;
+    --manta-navy-lighter: #334155;
+    --manta-gold: #d4a853;
+    --manta-gold-light: #e5c07b;
+    --manta-teal: #0ea5e9;
+    --manta-teal-dark: #0284c7;
+    --manta-emerald: #10b981;
+    --manta-coral: #ef4444;
+    --manta-cream: #fefce8;
+    --manta-slate: #94a3b8;
+
+    /* Sidebar */
+    --sidebar-width: 260px;
+    --sidebar-collapsed: 64px;
+    --topbar-height: 64px;
+}
+
+/* ── Typography ──────────────────────────────── */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-heading {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+/* ── Sidebar ─────────────────────────────────── */
+.sidebar {
+    width: var(--sidebar-width);
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--manta-navy) 0%, #0c1425 100%);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    transition: width 0.3s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sidebar-brand {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sidebar-brand-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--manta-gold) 0%, var(--manta-gold-light) 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--manta-navy);
+    flex-shrink: 0;
+}
+
+.sidebar-brand-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: white;
+    letter-spacing: -0.03em;
+}
+
+.sidebar-brand-sub {
+    font-size: 0.65rem;
+    color: var(--manta-slate);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.sidebar-nav {
+    padding: 1rem 0.75rem;
+}
+
+.sidebar-section {
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-section-title {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--manta-slate);
+    padding: 0 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-bottom: 2px;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+.sidebar-link.active {
+    background: linear-gradient(135deg, var(--manta-teal) 0%, var(--manta-teal-dark) 100%);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+.sidebar-link i {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* ── Main Content Area ───────────────────────── */
+.main-content {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+}
+
+/* ── Top Bar ─────────────────────────────────── */
+.topbar {
+    height: var(--topbar-height);
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.topbar-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--manta-navy);
+}
+
+/* ── Page Content ────────────────────────────── */
+.page-content {
+    padding: 1.5rem;
+}
+
+/* ── Stat Cards ──────────────────────────────── */
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--manta-teal);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
+    transform: translateY(-1px);
+}
+
+.stat-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-card-icon.teal { background: rgba(14, 165, 233, 0.1); color: var(--manta-teal); }
+.stat-card-icon.gold { background: rgba(212, 168, 83, 0.1); color: var(--manta-gold); }
+.stat-card-icon.emerald { background: rgba(16, 185, 129, 0.1); color: var(--manta-emerald); }
+.stat-card-icon.coral { background: rgba(239, 68, 68, 0.1); color: var(--manta-coral); }
+.stat-card-icon.navy { background: rgba(15, 23, 42, 0.08); color: var(--manta-navy); }
+
+.stat-card-value {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--manta-navy);
+    line-height: 1;
+    margin-top: 0.75rem;
+}
+
+.stat-card-label {
+    font-size: 0.8rem;
+    color: var(--manta-slate);
+    margin-top: 0.25rem;
+    font-weight: 500;
+}
+
+/* ── Room Grid Cards ─────────────────────────── */
+.room-card {
+    border-radius: 10px;
+    padding: 0.875rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    min-width: 90px;
+}
+
+.room-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.room-card.available { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+.room-card.occupied { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+.room-card.dirty { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.room-card.maintenance { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.room-card.out_of_order { background: #f9fafb; border-color: #d1d5db; color: #6b7280; }
+
+.room-card-number {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+}
+
+.room-card-type {
+    font-size: 0.7rem;
+    font-weight: 500;
+    opacity: 0.8;
+    margin-top: 0.125rem;
+}
+
+/* ── Kanban Board ────────────────────────────── */
+.kanban-column {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1rem;
+    min-height: 400px;
+}
+
+.kanban-column-header {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.kanban-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.875rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.kanban-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Data Tables ─────────────────────────────── */
+.data-table {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.data-table table {
+    width: 100%;
+}
+
+.data-table thead th {
+    background: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--manta-slate);
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.data-table tbody td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.875rem;
+    vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ── Buttons ─────────────────────────────────── */
+.btn-manta {
+    background: linear-gradient(135deg, var(--manta-teal) 0%, var(--manta-teal-dark) 100%);
+    color: white;
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.25);
+    transition: all 0.2s ease;
+}
+
+.btn-manta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+    color: white;
+}
+
+.btn-gold {
+    background: linear-gradient(135deg, var(--manta-gold) 0%, var(--manta-gold-light) 100%);
+    color: var(--manta-navy);
+    border: none;
+    font-weight: 600;
+}
+
+/* ── HTMX Loading Indicator ──────────────────── */
+.htmx-indicator {
+    display: none;
+}
+
+.htmx-request .htmx-indicator {
+    display: inline-flex;
+}
+
+.htmx-request.htmx-indicator {
+    display: inline-flex;
+}
+
+/* ── Toast Notifications ─────────────────────── */
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toast-item {
+    animation: slideIn 0.3s ease, fadeOut 0.3s ease 4.7s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* ── Invoice Print Styles ────────────────────── */
+.invoice-container {
+    background: white;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+@media print {
+    .sidebar, .topbar, .no-print { display: none !important; }
+    .main-content { margin-left: 0 !important; }
+    .page-content { padding: 0 !important; }
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 1024px) {
+    .sidebar { width: var(--sidebar-collapsed); }
+    .sidebar .sidebar-brand-text,
+    .sidebar .sidebar-brand-sub,
+    .sidebar .sidebar-section-title,
+    .sidebar .sidebar-link span { display: none; }
+    .main-content { margin-left: var(--sidebar-collapsed); }
+}
+
+@media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); width: var(--sidebar-width); }
+    .sidebar.open { transform: translateX(0); }
+    .main-content { margin-left: 0; }
+}
+
+/* ── POS Terminal ────────────────────────────── */
+.pos-item-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+}
+
+.pos-item-card:hover {
+    border-color: var(--manta-teal);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.12);
+}
+
+.pos-item-card.selected {
+    border-color: var(--manta-teal);
+    background: rgba(14, 165, 233, 0.04);
+}
+
+.pos-item-price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    color: var(--manta-teal);
+    margin-top: 0.25rem;
+}
+
+/* ── Calendar ────────────────────────────────── */
+.calendar-cell {
+    min-height: 40px;
+    border: 1px solid #e2e8f0;
+    position: relative;
+}
+
+.calendar-booking {
+    background: var(--manta-teal);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Badge Overrides ─────────────────────────── */
+.badge {
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}PB1 Tax Report{% endblock %}
+{% block page_title %}PB1 Tax Report{% endblock %}
+
+{% block content %}
+<!-- Period Selector -->
+<div class="bg-white rounded-xl border border-slate-200 p-4 mb-6">
+    <form method="get" class="flex gap-3 items-end">
+        <div class="form-control">
+            <label class="label label-text text-xs font-semibold text-slate-500">Year</label>
+            <select name="year" class="select select-bordered select-sm w-32">
+                {% for y in years %}
+                <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-control">
+            <label class="label label-text text-xs font-semibold text-slate-500">Month</label>
+            <select name="month" class="select select-bordered select-sm w-32">
+                {% for m in months %}
+                <option value="{{ m }}" {% if m == month %}selected{% endif %}>{{ m }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-sm btn-ghost">View</button>
+    </form>
+</div>
+
+<!-- Tax Summary -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="stat-card">
+        <div class="stat-card-value">{{ summary.total_invoices }}</div>
+        <div class="stat-card-label">Total Invoices</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-value">{{ summary.total_taxable_amount|idr }}</div>
+        <div class="stat-card-label">Taxable Amount</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-value">{{ summary.total_tax_collected|idr }}</div>
+        <div class="stat-card-label">PB1 Tax Collected</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-value">{{ summary.total_service_charge|idr }}</div>
+        <div class="stat-card-label">Service Charges</div>
+    </div>
+</div>
+
+<!-- Tax Records -->
+<div class="data-table">
+    <table>
+        <thead><tr>
+            <th>Invoice</th>
+            <th>Guest</th>
+            <th>Taxable</th>
+            <th>Rate</th>
+            <th>Tax</th>
+            <th>Service</th>
+        </tr></thead>
+        <tbody>
+            {% for rec in records %}
+            <tr>
+                <td class="font-mono text-sm text-sky-600">{{ rec.folio.invoice_number }}</td>
+                <td class="text-sm">{{ rec.folio.reservation.guest.full_name }}</td>
+                <td class="text-sm">{{ rec.taxable_amount|idr }}</td>
+                <td class="text-sm">{{ rec.tax_rate }}%</td>
+                <td class="text-sm font-semibold">{{ rec.tax_amount|idr }}</td>
+                <td class="text-sm">{{ rec.service_charge_amount|idr }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="text-center py-8 text-slate-400">No tax records for this period</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

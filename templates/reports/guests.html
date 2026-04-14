@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}Guest Demographics{% endblock %}
+{% block page_title %}Guest Demographics{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="stat-card">
+        <div class="stat-card-icon teal mb-2"><i data-lucide="users" class="w-5 h-5"></i></div>
+        <div class="stat-card-value">{{ total_guests }}</div>
+        <div class="stat-card-label">Total Guests</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-icon emerald mb-2"><i data-lucide="map-pin" class="w-5 h-5"></i></div>
+        <div class="stat-card-value">{{ domestic_guests }}</div>
+        <div class="stat-card-label">Domestic (Indonesian)</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-icon gold mb-2"><i data-lucide="globe" class="w-5 h-5"></i></div>
+        <div class="stat-card-value">{{ foreign_guests }}</div>
+        <div class="stat-card-label">Foreign Nationals</div>
+    </div>
+</div>
+
+<div class="data-table">
+    <table>
+        <thead><tr>
+            <th>Nationality</th>
+            <th>Count</th>
+            <th>Percentage</th>
+            <th>Visual</th>
+        </tr></thead>
+        <tbody>
+            {% for n in nationality_data %}
+            <tr>
+                <td class="text-sm font-medium">{{ n.nationality }}</td>
+                <td class="text-sm font-semibold">{{ n.count }}</td>
+                <td class="text-sm text-slate-500">{% widthratio n.count total_guests 100 %}%</td>
+                <td>
+                    <div class="w-full bg-slate-100 rounded-full h-2 max-w-[200px]">
+                        <div class="h-2 rounded-full bg-sky-400" style="width: {% widthratio n.count total_guests 100 %}%"></div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

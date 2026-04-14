@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}Front Desk{% endblock %}
+{% block page_title %}Front Desk{% endblock %}
+
+{% block page_actions %}
+<a href="{% url 'frontdesk:walkin' %}" class="btn btn-manta btn-sm gap-1 rounded-lg">
+    <i data-lucide="user-plus" class="w-4 h-4"></i> Walk-in Guest
+</a>
+{% endblock %}
+
+{% block content %}
+<!-- Quick Stats -->
+<div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="stat-card !p-4 flex items-center gap-3">
+        <div class="stat-card-icon emerald"><i data-lucide="log-in" class="w-5 h-5"></i></div>
+        <div>
+            <div class="font-heading font-bold text-2xl">{{ arrivals.count }}</div>
+            <div class="text-xs text-slate-500">Arriving Today</div>
+        </div>
+    </div>
+    <div class="stat-card !p-4 flex items-center gap-3">
+        <div class="stat-card-icon teal"><i data-lucide="home" class="w-5 h-5"></i></div>
+        <div>
+            <div class="font-heading font-bold text-2xl">{{ in_house.count }}</div>
+            <div class="text-xs text-slate-500">In-House</div>
+        </div>
+    </div>
+    <div class="stat-card !p-4 flex items-center gap-3">
+        <div class="stat-card-icon coral"><i data-lucide="log-out" class="w-5 h-5"></i></div>
+        <div>
+            <div class="font-heading font-bold text-2xl">{{ departures.count }}</div>
+            <div class="text-xs text-slate-500">Departing Today</div>
+        </div>
+    </div>
+</div>
+
+<!-- Arrivals Section -->
+<div class="bg-white rounded-xl border border-slate-200 overflow-hidden mb-6">
+    <div class="px-5 py-4 border-b border-slate-200 bg-emerald-50">
+        <h3 class="font-heading font-bold text-emerald-800 flex items-center gap-2">
+            <i data-lucide="log-in" class="w-5 h-5"></i>
+            Expected Arrivals — {{ today|date:"d M Y" }}
+        </h3>
+    </div>
+    <table class="table table-sm">
+        <thead><tr class="bg-slate-50">
+            <th class="text-xs uppercase text-slate-500">Guest</th>
+            <th class="text-xs uppercase text-slate-500">Reservation</th>
+            <th class="text-xs uppercase text-slate-500">Room(s)</th>
+            <th class="text-xs uppercase text-slate-500">Nights</th>
+            <th class="text-xs uppercase text-slate-500">Action</th>
+        </tr></thead>
+        <tbody>
+            {% for res in arrivals %}
+            <tr>
+                <td><span class="font-semibold text-sm">{{ res.guest.full_name }}</span></td>
+                <td class="font-mono text-sm text-sky-600">{{ res.reservation_code }}</td>
+                <td class="text-sm">{% for rr in res.reservation_rooms.all %}{{ rr.room.room_number }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                <td class="text-sm">{{ res.nights }}</td>
+                <td><a href="{% url 'frontdesk:checkin' res.pk %}" class="btn btn-sm btn-manta rounded-lg gap-1"><i data-lucide="log-in" class="w-3.5 h-3.5"></i>Check In</a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-center py-6 text-slate-400">No arrivals expected today</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- In-House Guests -->
+<div class="bg-white rounded-xl border border-slate-200 overflow-hidden mb-6">
+    <div class="px-5 py-4 border-b border-slate-200 bg-sky-50">
+        <h3 class="font-heading font-bold text-sky-800 flex items-center gap-2">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            In-House Guests
+        </h3>
+    </div>
+    <table class="table table-sm">
+        <thead><tr class="bg-slate-50">
+            <th class="text-xs uppercase text-slate-500">Guest</th>
+            <th class="text-xs uppercase text-slate-500">Room(s)</th>
+            <th class="text-xs uppercase text-slate-500">Check-in</th>
+            <th class="text-xs uppercase text-slate-500">Check-out</th>
+            <th class="text-xs uppercase text-slate-500">Actions</th>
+        </tr></thead>
+        <tbody>
+            {% for res in in_house %}
+            <tr>
+                <td><span class="font-semibold text-sm">{{ res.guest.full_name }}</span></td>
+                <td class="text-sm">{% for rr in res.reservation_rooms.all %}{{ rr.room.room_number }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                <td class="text-sm">{{ res.check_in_date|date:"d M" }}</td>
+                <td class="text-sm">{{ res.check_out_date|date:"d M" }}</td>
+                <td class="flex gap-1">
+                    {% if res.check_out_date == today %}
+                    <a href="{% url 'frontdesk:checkout' res.pk %}" class="btn btn-sm btn-outline btn-error rounded-lg">Check Out</a>
+                    {% endif %}
+                    <a href="{% url 'reservations:detail' res.pk %}" class="btn btn-ghost btn-xs"><i data-lucide="eye" class="w-3.5 h-3.5"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-center py-6 text-slate-400">No in-house guests</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Departures Section -->
+<div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <div class="px-5 py-4 border-b border-slate-200 bg-red-50">
+        <h3 class="font-heading font-bold text-red-800 flex items-center gap-2">
+            <i data-lucide="log-out" class="w-5 h-5"></i>
+            Expected Departures — {{ today|date:"d M Y" }}
+        </h3>
+    </div>
+    <table class="table table-sm">
+        <thead><tr class="bg-slate-50">
+            <th class="text-xs uppercase text-slate-500">Guest</th>
+            <th class="text-xs uppercase text-slate-500">Room(s)</th>
+            <th class="text-xs uppercase text-slate-500">Reservation</th>
+            <th class="text-xs uppercase text-slate-500">Action</th>
+        </tr></thead>
+        <tbody>
+            {% for res in departures %}
+            <tr>
+                <td><span class="font-semibold text-sm">{{ res.guest.full_name }}</span></td>
+                <td class="text-sm">{% for rr in res.reservation_rooms.all %}{{ rr.room.room_number }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                <td class="font-mono text-sm text-sky-600">{{ res.reservation_code }}</td>
+                <td><a href="{% url 'frontdesk:checkout' res.pk %}" class="btn btn-sm btn-outline btn-error rounded-lg gap-1"><i data-lucide="log-out" class="w-3.5 h-3.5"></i>Check Out</a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-center py-6 text-slate-400">No departures today</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

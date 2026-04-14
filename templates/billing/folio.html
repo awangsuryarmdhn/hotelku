@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}Folio — {{ folio.invoice_number }}{% endblock %}
+{% block page_title %}Guest Folio{% endblock %}
+
+{% block page_actions %}
+<a href="{% url 'billing:invoice' folio.pk %}" class="btn btn-ghost btn-sm gap-1 rounded-lg" target="_blank">
+    <i data-lucide="printer" class="w-4 h-4"></i> Print Invoice
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+        <!-- Folio Header -->
+        <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="font-heading font-bold text-lg">{{ folio.invoice_number }}</h3>
+                    <p class="text-sm text-slate-500">{{ folio.reservation.guest.full_name }} · {{ folio.reservation.reservation_code }}</p>
+                </div>
+                <div class="flex gap-2">
+                    {{ folio.status|status_badge }}
+                    {{ folio.payment_status|status_badge }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Charges -->
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+                <h3 class="font-heading font-bold">Charges</h3>
+            </div>
+            <div id="charge-list">
+                <table class="table table-sm">
+                    <thead><tr class="bg-slate-50">
+                        <th class="text-xs uppercase text-slate-500">Date</th>
+                        <th class="text-xs uppercase text-slate-500">Type</th>
+                        <th class="text-xs uppercase text-slate-500">Description</th>
+                        <th class="text-xs uppercase text-slate-500 text-right">Amount</th>
+                    </tr></thead>
+                    <tbody>
+                        {% for charge in charges %}
+                        <tr>
+                            <td class="text-sm text-slate-500">{{ charge.created_at|date:"d/m" }}</td>
+                            <td class="text-sm">{{ charge.get_charge_type_display }}</td>
+                            <td class="text-sm font-medium">{{ charge.description }}</td>
+                            <td class="text-sm font-medium text-right">{{ charge.amount|idr }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="text-center py-4 text-slate-400">No charges</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if folio.status == 'open' %}
+            <!-- Add Charge Form -->
+            <div class="p-4 border-t border-slate-200 bg-slate-50">
+                <form method="post" action="{% url 'billing:add_charge' folio.pk %}"
+                      hx-post="{% url 'billing:add_charge' folio.pk %}" hx-target="#charge-list" hx-swap="innerHTML">
+                    {% csrf_token %}
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                        {{ charge_form.charge_type }}
+                        {{ charge_form.description }}
+                        {{ charge_form.amount }}
+                        {{ charge_form.quantity }}
+                        <button type="submit" class="btn btn-sm btn-manta rounded-lg">+ Add</button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Payments -->
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-200">
+                <h3 class="font-heading font-bold">Payments</h3>
+            </div>
+            <div id="payment-list">
+                <table class="table table-sm">
+                    <thead><tr class="bg-slate-50">
+                        <th class="text-xs uppercase text-slate-500">Date</th>
+                        <th class="text-xs uppercase text-slate-500">Method</th>
+                        <th class="text-xs uppercase text-slate-500">Reference</th>
+                        <th class="text-xs uppercase text-slate-500 text-right">Amount</th>
+                    </tr></thead>
+                    <tbody>
+                        {% for payment in payments %}
+                        <tr>
+                            <td class="text-sm text-slate-500">{{ payment.created_at|date:"d/m H:i" }}</td>
+                            <td class="text-sm">{{ payment.get_method_display }}</td>
+                            <td class="text-sm text-slate-500">{{ payment.reference|default:"-" }}</td>
+                            <td class="text-sm font-semibold text-emerald-600 text-right">{{ payment.amount|idr }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="text-center py-4 text-slate-400">No payments recorded</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add Payment Form -->
+            <div class="p-4 border-t border-slate-200 bg-slate-50">
+                <form method="post" action="{% url 'billing:add_payment' folio.pk %}"
+                      hx-post="{% url 'billing:add_payment' folio.pk %}" hx-target="#payment-list" hx-swap="innerHTML">
+                    {% csrf_token %}
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        {{ payment_form.amount }}
+                        {{ payment_form.method }}
+                        {{ payment_form.reference }}
+                        <button type="submit" class="btn btn-sm btn-success rounded-lg">+ Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Sidebar -->
+    <div>
+        <div class="bg-white rounded-xl border border-slate-200 p-6 sticky top-20">
+            <h3 class="font-heading font-bold mb-4">Billing Summary</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500">Subtotal</span>
+                    <span class="font-medium">{{ folio.subtotal|idr }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500">PB1 Tax ({{ hotel_tax_rate }}%)</span>
+                    <span class="font-medium">{{ folio.tax_amount|idr }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500">Service ({{ hotel_service_charge }}%)</span>
+                    <span class="font-medium">{{ folio.service_charge_amount|idr }}</span>
+                </div>
+                <div class="flex justify-between pt-3 border-t border-slate-200">
+                    <span class="font-bold">Grand Total</span>
+                    <span class="font-heading font-bold text-lg">{{ folio.grand_total|idr }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-emerald-600">Total Paid</span>
+                    <span class="font-medium text-emerald-600">{{ folio.total_paid|idr }}</span>
+                </div>
+                <div class="flex justify-between pt-3 border-t border-slate-200">
+                    <span class="font-bold {% if folio.balance_due > 0 %}text-red-600{% else %}text-emerald-600{% endif %}">Balance Due</span>
+                    <span class="font-heading font-bold text-xl {% if folio.balance_due > 0 %}text-red-600{% else %}text-emerald-600{% endif %}">{{ folio.balance_due|idr }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

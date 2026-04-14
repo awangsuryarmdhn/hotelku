@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — {{ hotel_name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="min-h-screen flex">
+    <!-- Left Panel — Branding -->
+    <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0c1425] relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+
+        <div class="flex flex-col justify-center px-16 relative z-10">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-14 h-14 bg-gradient-to-br from-[#d4a853] to-[#e5c07b] rounded-2xl flex items-center justify-center text-[#0f172a] font-extrabold text-2xl shadow-lg">
+                    M
+                </div>
+                <div>
+                    <h1 class="text-3xl font-extrabold text-white font-heading tracking-tight">{{ hotel_name }}</h1>
+                    <p class="text-slate-400 text-sm tracking-widest uppercase">Property Management</p>
+                </div>
+            </div>
+
+            <h2 class="text-4xl font-extrabold text-white font-heading leading-tight mb-4">
+                Manage your<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-300">hotel operations</span><br>
+                with confidence.
+            </h2>
+
+            <p class="text-slate-400 text-lg leading-relaxed max-w-md">
+                Complete property management system designed for Indonesian hospitality.
+                From front desk to back office — everything in one place.
+            </p>
+
+            <!-- Feature highlights -->
+            <div class="mt-10 grid grid-cols-2 gap-4">
+                <div class="flex items-center gap-3 text-slate-300">
+                    <div class="w-8 h-8 rounded-lg bg-sky-500/20 flex items-center justify-center">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-sky-400"></i>
+                    </div>
+                    <span class="text-sm">Secure & Reliable</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-300">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                        <i data-lucide="receipt" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <span class="text-sm">PB1 Tax Ready</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-300">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                        <i data-lucide="globe" class="w-4 h-4 text-amber-400"></i>
+                    </div>
+                    <span class="text-sm">Multi-Platform</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-300">
+                    <div class="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-violet-400"></i>
+                    </div>
+                    <span class="text-sm">Real-time Analytics</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Panel — Login Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
+        <div class="w-full max-w-md">
+            <!-- Mobile brand -->
+            <div class="flex items-center gap-3 mb-8 lg:hidden">
+                <div class="w-11 h-11 bg-gradient-to-br from-[#d4a853] to-[#e5c07b] rounded-xl flex items-center justify-center text-[#0f172a] font-extrabold text-lg">
+                    M
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-slate-900 font-heading">{{ hotel_name }}</h1>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Welcome back</h2>
+            <p class="text-slate-500 mt-1 mb-8">Sign in to access your dashboard</p>
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-error mb-6 rounded-xl">
+                <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                <span>{% for error in form.non_field_errors %}{{ error }}{% endfor %}</span>
+            </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'accounts:login' %}" class="space-y-5">
+                {% csrf_token %}
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-semibold text-slate-700">Username</span>
+                    </label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                    <label class="label"><span class="label-text-alt text-error">{{ form.username.errors.0 }}</span></label>
+                    {% endif %}
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-semibold text-slate-700">Password</span>
+                    </label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                    <label class="label"><span class="label-text-alt text-error">{{ form.password.errors.0 }}</span></label>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-manta w-full text-base h-12 rounded-xl mt-2" id="login-submit">
+                    Sign In
+                </button>
+            </form>
+
+            <p class="text-center text-sm text-slate-400 mt-8">
+                {{ hotel_name }} &copy; {% now "Y" %} &mdash; Hotel Management System
+            </p>
+        </div>
+    </div>
+
+    <script>document.addEventListener('DOMContentLoaded', function() { if (window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

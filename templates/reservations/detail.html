@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}{{ reservation.reservation_code }}{% endblock %}
+{% block page_title %}Reservation Detail{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Reservation Info -->
+    <div class="lg:col-span-2 space-y-6">
+        <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-heading font-bold text-lg flex items-center gap-2">
+                    <i data-lucide="calendar-check" class="w-5 h-5 text-sky-500"></i>
+                    {{ reservation.reservation_code }}
+                </h3>
+                {{ reservation.status|status_badge }}
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                    <div class="text-xs text-slate-500 font-semibold uppercase">Check-in</div>
+                    <div class="font-semibold text-sm mt-1">{{ reservation.check_in_date|date:"d M Y" }}</div>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 font-semibold uppercase">Check-out</div>
+                    <div class="font-semibold text-sm mt-1">{{ reservation.check_out_date|date:"d M Y" }}</div>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 font-semibold uppercase">Nights</div>
+                    <div class="font-semibold text-sm mt-1">{{ reservation.nights }}</div>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 font-semibold uppercase">Source</div>
+                    <div class="font-semibold text-sm mt-1">{{ reservation.get_source_display }}</div>
+                </div>
+            </div>
+
+            {% if reservation.special_requests %}
+            <div class="mt-4 pt-4 border-t border-slate-100">
+                <div class="text-xs text-slate-500 font-semibold uppercase mb-1">Special Requests</div>
+                <p class="text-sm text-slate-600">{{ reservation.special_requests }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Assigned Rooms -->
+        <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 class="font-heading font-bold text-lg mb-4">Assigned Rooms</h3>
+            {% for rr in reservation_rooms %}
+            <div class="flex items-center justify-between py-3 border-b border-slate-100 last:border-0">
+                <div class="flex items-center gap-3">
+                    <div class="room-card {{ rr.room.status }} !p-2 !min-w-0">
+                        <div class="font-bold text-lg">{{ rr.room.room_number }}</div>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-sm">{{ rr.room.room_type.name }}</div>
+                        <div class="text-xs text-slate-500">Floor {{ rr.room.floor }}</div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="font-bold text-sm">{{ rr.rate|idr }}</div>
+                    <div class="text-xs text-slate-500">per night</div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-slate-400 text-sm">No rooms assigned yet</p>
+            {% endfor %}
+
+            <div class="mt-4 pt-4 border-t border-slate-200 flex justify-between">
+                <span class="font-semibold">Total Room Charges</span>
+                <span class="font-heading font-bold text-lg text-sky-600">{{ reservation.total_room_charge|idr }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guest Info + Actions -->
+    <div class="space-y-6">
+        <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 class="font-heading font-bold mb-4">Guest</h3>
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center text-white font-bold">
+                    {{ reservation.guest.initials }}
+                </div>
+                <div>
+                    <div class="font-semibold">{{ reservation.guest.full_name }}</div>
+                    <div class="text-sm text-slate-500">{{ reservation.guest.phone }}</div>
+                </div>
+            </div>
+            <a href="{% url 'guests:profile' reservation.guest.pk %}" class="btn btn-ghost btn-sm w-full">View Profile</a>
+        </div>
+
+        <!-- Actions -->
+        <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 class="font-heading font-bold mb-4">Actions</h3>
+            <div class="space-y-2">
+                {% if reservation.status == 'confirmed' %}
+                <a href="{% url 'frontdesk:checkin' reservation.pk %}" class="btn btn-manta w-full gap-2">
+                    <i data-lucide="log-in" class="w-4 h-4"></i> Check In
+                </a>
+                {% elif reservation.status == 'checked_in' %}
+                <a href="{% url 'frontdesk:checkout' reservation.pk %}" class="btn btn-error w-full gap-2">
+                    <i data-lucide="log-out" class="w-4 h-4"></i> Check Out
+                </a>
+                {% endif %}
+                <a href="{% url 'reservations:edit' reservation.pk %}" class="btn btn-ghost w-full gap-2">
+                    <i data-lucide="pencil" class="w-4 h-4"></i> Edit Reservation
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

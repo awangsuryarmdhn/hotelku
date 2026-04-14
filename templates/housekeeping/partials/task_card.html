@@ -1,0 +1,11 @@
+{% load manta_tags %}
+<div class="kanban-card" id="task-{{ task.pk }}">
+    <div class="flex items-center justify-between mb-2">
+        <span class="font-heading font-bold text-lg">{{ task.room.room_number }}</span>
+        {{ task.status|status_badge }}
+    </div>
+    <div class="text-xs text-slate-500">{{ task.get_task_type_display }}</div>
+    {% if task.assigned_to %}
+    <div class="text-xs text-slate-400 mt-1">{{ task.assigned_to.display_name }}</div>
+    {% endif %}
+</div>

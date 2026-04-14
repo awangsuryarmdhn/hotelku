@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
+{% block title %}POS Terminal{% endblock %}
+{% block page_title %}POS Terminal{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'pos:create_order' %}" x-data="posTerminal()">
+    {% csrf_token %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Menu Items -->
+        <div class="lg:col-span-2">
+            <!-- Category Tabs -->
+            <div class="flex gap-2 mb-4 flex-wrap">
+                <button type="button" @click="activeCategory = 'all'"
+                        :class="activeCategory === 'all' ? 'btn-manta' : 'btn-ghost'"
+                        class="btn btn-sm rounded-lg">All</button>
+                {% for cat in categories %}
+                <button type="button" @click="activeCategory = '{{ cat.pk }}'"
+                        :class="activeCategory === '{{ cat.pk }}' ? 'btn-manta' : 'btn-ghost'"
+                        class="btn btn-sm rounded-lg">{{ cat.name }}</button>
+                {% endfor %}
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
+                {% for cat in categories %}
+                {% for item in cat.items.all %}
+                {% if item.is_available %}
+                <div class="pos-item-card" x-show="activeCategory === 'all' || activeCategory === '{{ cat.pk }}'"
+                     @click="addItem('{{ item.pk }}', '{{ item.name }}', {{ item.price }})">
+                    <div class="font-semibold text-sm">{{ item.name }}</div>
+                    <div class="pos-item-price text-sm">{{ item.price|idr }}</div>
+                    <div class="text-xs text-slate-400">{{ cat.name }}</div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 h-fit sticky top-20">
+            <h3 class="font-heading font-bold mb-4 flex items-center gap-2">
+                <i data-lucide="shopping-cart" class="w-5 h-5 text-sky-500"></i>
+                Current Order
+            </h3>
+
+            <!-- Order Items -->
+            <div class="space-y-2 mb-4 min-h-[100px]" id="order-items">
+                <template x-for="(item, index) in orderItems" :key="index">
+                    <div class="flex items-center justify-between py-2 border-b border-slate-100">
+                        <div>
+                            <div class="text-sm font-medium" x-text="item.name"></div>
+                            <div class="text-xs text-slate-500">
+                                <span x-text="formatIDR(item.price)"></span> × <span x-text="item.qty"></span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-sm" x-text="formatIDR(item.price * item.qty)"></span>
+                            <button type="button" @click="removeItem(index)" class="btn btn-ghost btn-xs text-red-500">✕</button>
+                        </div>
+                        <input type="hidden" name="item_ids" :value="item.id">
+                        <input type="hidden" name="quantities" :value="item.qty">
+                    </div>
+                </template>
+                <div x-show="orderItems.length === 0" class="text-center py-6 text-slate-400 text-sm">
+                    Tap items to add to order
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="flex justify-between py-3 border-t-2 border-slate-200 mb-4">
+                <span class="font-bold text-lg">Total</span>
+                <span class="font-heading font-bold text-xl text-sky-600" x-text="formatIDR(orderTotal)"></span>
+            </div>
+
+            <!-- Payment Type -->
+            <div class="form-control mb-3">
+                <label class="label label-text text-xs font-semibold text-slate-500">Payment Method</label>
+                <select name="payment_type" class="select select-bordered select-sm w-full" x-model="paymentType">
+                    <option value="room_charge">Charge to Room</option>
+                    <option value="cash">Cash</option>
+                    <option value="card">Card</option>
+                    <option value="qris">QRIS</option>
+                </select>
+            </div>
+
+            <!-- Room Selection (if room charge) -->
+            <div x-show="paymentType === 'room_charge'" class="form-control mb-3">
+                <label class="label label-text text-xs font-semibold text-slate-500">Room</label>
+                <select name="room_id" class="select select-bordered select-sm w-full">
+                    <option value="">Select Room</option>
+                    {% for room in occupied_rooms %}
+                    <option value="{{ room.pk }}">Room {{ room.room_number }} ({{ room.room_type.name }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-manta w-full rounded-lg gap-2"
+                    :disabled="orderItems.length === 0">
+                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                Complete Order
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+function posTerminal() {
+    return {
+        activeCategory: 'all',
+        paymentType: 'room_charge',
+        orderItems: [],
+
+        addItem(id, name, price) {
+            var existing = this.orderItems.find(function(i) { return i.id === id; });
+            if (existing) {
+                existing.qty++;
+            } else {
+                this.orderItems.push({ id: id, name: name, price: price, qty: 1 });
+            }
+        },
+
+        removeItem(index) {
+            this.orderItems.splice(index, 1);
+        },
+
+        get orderTotal() {
+            return this.orderItems.reduce(function(sum, i) { return sum + (i.price * i.qty); }, 0);
+        },
+
+        formatIDR(amount) {
+            return 'Rp ' + amount.toLocaleString('id-ID');
+        }
+    };
+}
+</script>
+{% endblock %}

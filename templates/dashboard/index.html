@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+{% load humanize %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block page_actions %}
+<a href="{% url 'reservations:create' %}" class="btn btn-manta btn-sm gap-2 rounded-lg">
+    <i data-lucide="plus" class="w-4 h-4"></i> New Booking
+</a>
+{% endblock %}
+
+{% block content %}
+<!-- KPI Stats Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <!-- Occupancy -->
+    <div class="stat-card">
+        <div class="flex items-center justify-between">
+            <div class="stat-card-icon teal">
+                <i data-lucide="bed-double" class="w-5 h-5"></i>
+            </div>
+            <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Live</span>
+        </div>
+        <div class="stat-card-value">{{ occupancy_rate }}%</div>
+        <div class="stat-card-label">Occupancy Rate</div>
+        <div class="text-xs text-slate-400 mt-1">{{ occupied_rooms }}/{{ total_rooms }} rooms</div>
+    </div>
+
+    <!-- Today's Revenue -->
+    <div class="stat-card">
+        <div class="flex items-center justify-between">
+            <div class="stat-card-icon gold">
+                <i data-lucide="banknote" class="w-5 h-5"></i>
+            </div>
+        </div>
+        <div class="stat-card-value">{{ todays_revenue|idr }}</div>
+        <div class="stat-card-label">Today's Revenue</div>
+        <div class="text-xs text-slate-400 mt-1">Monthly: {{ monthly_revenue|idr }}</div>
+    </div>
+
+    <!-- Arrivals -->
+    <div class="stat-card">
+        <div class="flex items-center justify-between">
+            <div class="stat-card-icon emerald">
+                <i data-lucide="log-in" class="w-5 h-5"></i>
+            </div>
+        </div>
+        <div class="stat-card-value">{{ todays_arrivals }}</div>
+        <div class="stat-card-label">Expected Arrivals</div>
+        <div class="text-xs text-slate-400 mt-1">{{ todays_checkins }} already checked in</div>
+    </div>
+
+    <!-- Departures -->
+    <div class="stat-card">
+        <div class="flex items-center justify-between">
+            <div class="stat-card-icon coral">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+            </div>
+        </div>
+        <div class="stat-card-value">{{ todays_departures }}</div>
+        <div class="stat-card-label">Expected Departures</div>
+        <div class="text-xs text-slate-400 mt-1">{{ pending_tasks }} housekeeping pending</div>
+    </div>
+</div>
+
+<!-- Room Status Overview -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+    <!-- Room Status Summary -->
+    <div class="bg-white rounded-xl border border-slate-200 p-5">
+        <h3 class="font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i data-lucide="hotel" class="w-5 h-5 text-sky-500"></i>
+            Room Status
+        </h3>
+        <div class="space-y-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                    <span class="text-sm text-slate-600">Available</span>
+                </div>
+                <span class="font-bold text-slate-900">{{ available_rooms }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                    <span class="text-sm text-slate-600">Occupied</span>
+                </div>
+                <span class="font-bold text-slate-900">{{ occupied_rooms }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                    <span class="text-sm text-slate-600">Dirty</span>
+                </div>
+                <span class="font-bold text-slate-900">{{ dirty_rooms }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-blue-400"></div>
+                    <span class="text-sm text-slate-600">Maintenance</span>
+                </div>
+                <span class="font-bold text-slate-900">{{ maintenance_rooms }}</span>
+            </div>
+        </div>
+        <a href="{% url 'rooms:grid' %}" class="btn btn-ghost btn-sm w-full mt-4 text-sky-600">
+            View Room Grid →
+        </a>
+    </div>
+
+    <!-- Today's Arrivals -->
+    <div class="bg-white rounded-xl border border-slate-200 p-5">
+        <h3 class="font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i data-lucide="log-in" class="w-5 h-5 text-emerald-500"></i>
+            Today's Arrivals
+        </h3>
+        {% if arrivals %}
+        <div class="space-y-2">
+            {% for res in arrivals %}
+            <div class="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+                <div>
+                    <div class="font-semibold text-sm text-slate-900">{{ res.guest.full_name }}</div>
+                    <div class="text-xs text-slate-500">{{ res.reservation_code }}</div>
+                </div>
+                <a href="{% url 'frontdesk:checkin' res.pk %}" class="btn btn-sm btn-manta rounded-lg">
+                    Check In
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-8 text-slate-400">
+            <i data-lucide="sun" class="w-10 h-10 mx-auto mb-2 opacity-40"></i>
+            <p class="text-sm">No arrivals expected today</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Today's Departures -->
+    <div class="bg-white rounded-xl border border-slate-200 p-5">
+        <h3 class="font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i data-lucide="log-out" class="w-5 h-5 text-coral"></i>
+            Today's Departures
+        </h3>
+        {% if departures %}
+        <div class="space-y-2">
+            {% for res in departures %}
+            <div class="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+                <div>
+                    <div class="font-semibold text-sm text-slate-900">{{ res.guest.full_name }}</div>
+                    <div class="text-xs text-slate-500">{{ res.reservation_code }}</div>
+                </div>
+                <a href="{% url 'frontdesk:checkout' res.pk %}" class="btn btn-sm btn-outline btn-error rounded-lg">
+                    Check Out
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-8 text-slate-400">
+            <i data-lucide="moon" class="w-10 h-10 mx-auto mb-2 opacity-40"></i>
+            <p class="text-sm">No departures today</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Recent Reservations -->
+<div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+        <h3 class="font-heading font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="calendar-check" class="w-5 h-5 text-sky-500"></i>
+            Recent Reservations
+        </h3>
+        <a href="{% url 'reservations:list' %}" class="text-sm text-sky-600 font-medium hover:underline">View All →</a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="table table-sm">
+            <thead>
+                <tr class="bg-slate-50">
+                    <th class="font-semibold text-xs uppercase tracking-wider text-slate-500">Code</th>
+                    <th class="font-semibold text-xs uppercase tracking-wider text-slate-500">Guest</th>
+                    <th class="font-semibold text-xs uppercase tracking-wider text-slate-500">Check-in</th>
+                    <th class="font-semibold text-xs uppercase tracking-wider text-slate-500">Check-out</th>
+                    <th class="font-semibold text-xs uppercase tracking-wider text-slate-500">Status</th>
+                    <th class="font-semibold text-xs uppercase tracking-wider text-slate-500">Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in recent_reservations %}
+                <tr class="hover:bg-slate-50 cursor-pointer" onclick="window.location='{% url 'reservations:detail' res.pk %}'">
+                    <td class="font-mono text-sm font-medium text-sky-600">{{ res.reservation_code }}</td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600">
+                                {{ res.guest.initials }}
+                            </div>
+                            <span class="font-medium text-sm">{{ res.guest.full_name }}</span>
+                        </div>
+                    </td>
+                    <td class="text-sm text-slate-600">{{ res.check_in_date|date:"d M Y" }}</td>
+                    <td class="text-sm text-slate-600">{{ res.check_out_date|date:"d M Y" }}</td>
+                    <td>{{ res.status|status_badge }}</td>
+                    <td class="text-sm text-slate-500">{{ res.get_source_display }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-8 text-slate-400">No reservations yet</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
