@@ -14,6 +14,7 @@ from .setup_db import setup_database_view
 urlpatterns = [
     # Remote DB Setup Command
     path('setup-db/', setup_database_view),
+    path('docs/', TemplateView.as_view(template_name='docs.html'), name='docs'),
 
     # PWA Service Worker & Manifest
     path('sw.js', TemplateView.as_view(template_name="sw.js", content_type='application/javascript')),

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Panduan Sistem{% endblock %}
+{% block page_title %}Panduan & Dokumentasi Sistem MantaHotel{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
+    
+    <div class="prose prose-slate max-w-none">
+        
+        <h2 class="text-2xl font-bold text-slate-800 border-b pb-2 mb-6"><i data-lucide="book-open" class="inline-block w-6 h-6 mr-2 text-sky-500"></i> Ringkasan Sistem</h2>
+        <p class="text-slate-600 mb-8">
+            MantaHotel adalah antarmuka manajemen PMS (Property Management System) modern yang didesain secara spesifik untuk perhotelan Indonesia. 
+            Mendukung alur operasional kausal (saling berhubungan), di mana setiap departemen (Resepsionis, Restoran, dan Tata Graha) terhubung secara instan tanpa perlu komunikasi manual.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <!-- Feature Block 1 -->
+            <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-sky-100 flex items-center justify-center text-sky-600">
+                        <i data-lucide="concierge-bell" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 m-0 text-lg">Resepsionis & Reservasi</h3>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
+                    <li>Booking tunggal maupun ganda (*multi-room*).</li>
+                    <li>Registrasi tamu dadakan (*Walk-in*).</li>
+                    <li>Alur Check-in yang mengunci kamar agar tidak berstatus 'Tersedia'.</li>
+                </ul>
+            </div>
+
+            <!-- Feature Block 2 -->
+            <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600">
+                        <i data-lucide="utensils-crossed" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 m-0 text-lg">Kasir F&B (Restoran)</h3>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
+                    <li>Mencatat pesanan mekanan/minuman langsung melalui terminal.</li>
+                    <li>Sistem *Charge to Room*: Tamu dapat memasukkan tagihan ke dalam folio kamar tanpa harus membayar kontan di tempat.</li>
+                </ul>
+            </div>
+
+            <!-- Feature Block 3 -->
+            <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 m-0 text-lg">Tata Graha (Housekeeping)</h3>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
+                    <li>Kamar yang baru di-*Check-out* akan langsung ditandai dengan status **Kotor**.</li>
+                    <li>Pekerja kebersihan cukup menekan "Tandai Bersih" agar kamar bisa dijual kembali oleh Resepsionis.</li>
+                </ul>
+            </div>
+
+            <!-- Feature Block 4 -->
+            <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600">
+                        <i data-lucide="receipt" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 m-0 text-lg">Tagihan Master (Folio)</h3>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
+                    <li>Harga Kamar digabung secara terpusat dengan tagihan Tambahan (Room Service / Restoran).</li>
+                    <li>Penambahan kalkulasi Pajak (PB1) secara otomatis untuk mencegah kebocoran [*revenue leakage*].</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-slate-800 border-b pb-2 mb-6"><i data-lucide="play-circle" class="inline-block w-6 h-6 mr-2 text-sky-500"></i> Panduan Demonstrasi Penuh (Bagi Presenter)</h2>
+        <div class="bg-sky-50 border border-sky-100 rounded-lg p-5 mb-8 text-sky-900 shadow-inner">
+            <ol class="list-decimal pl-5 space-y-3 font-medium">
+                <li>Buka halaman <strong>Beranda</strong> untuk menampilkan ke klien laporan "Helikopter" dari seluruh kondisi Hotel Anda saat ini secara Live (Angka Pendapatan, Tingkat Okupansi, dll).</li>
+                <li>Buka modul <strong>Kasir (F&B)</strong>. Pesankan tamu sebungkus "Nasi Goreng Spesial". Gunakan fitur pembayaran <em>Charge to Room (Bebankan ke Kamar)</em> untuk memperlihatkan keperkasaan Modul yang saling terhubung!</li>
+                <li>Selanjutnya, buka modul <strong>Reservasi</strong> dan carilah kamar tempat Anda melempar tagihan tadi. Silakan tekan <em>Check-out</em>, klien akan terkagum karena tagihan Kamar & Nasi Goreng otomatis menempel pada struk total (Folio/Invoice).</li>
+                <li>Lalu, tunjukkan <strong>Kamar (Denah)</strong>. Simsalabim! Kamar yang baru dicheckout warnanya akan langsung menyala Kuning sebagai berstatus <em>Kotor</em> dan minta segera dibersihkan oleh petugas! </li>
+            </ol>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
