@@ -111,7 +111,8 @@ if _db_password:
             'PORT': env('DB_PORT', default='6543'),
             'DISABLE_SERVER_SIDE_CURSORS': True,  # Required for Supabase transaction pooler
             'OPTIONS': {
-                'connect_timeout': 10,
+                'connect_timeout': 15,
+                'sslmode': 'require',
             },
         }
     }
@@ -177,6 +178,12 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_SSL_REDIRECT = True
+    
+    # Required for Vercel behind HTTPS proxy
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    # Required for Django CSRF validation across Vercel deployments
+    CSRF_TRUSTED_ORIGINS = ['https://*.vercel.app']
 
 # ── Hotel Configuration ───────────────────────────────
 # These are loaded into template context via context_processor
