@@ -7,9 +7,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
+    # PWA Service Worker & Manifest
+    path('sw.js', TemplateView.as_view(template_name="sw.js", content_type='application/javascript')),
+    path('manifest.json', TemplateView.as_view(template_name="manifest.json", content_type='application/json')),
+
     # Django admin (auto-generated CRUD for all models)
     path('admin/', admin.site.urls),
 

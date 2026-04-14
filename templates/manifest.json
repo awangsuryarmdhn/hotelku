@@ -1,6 +1,6 @@
 {
-  "name": "MantaHotel",
-  "short_name": "MantaHotel",
+  "name": "{{ hotel_name }}",
+  "short_name": "{{ hotel_name }}",
   "description": "Hotel Property Management System",
   "start_url": "/",
   "display": "standalone",

@@ -50,7 +50,7 @@ document.body.addEventListener('htmx:configRequest', function (event) {
 // ── PWA Service Worker Registration ─────────────
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/static/js/sw.js')
+        navigator.serviceWorker.register('/sw.js')
             .then(function (registration) {
                 console.log('MantaHotel SW registered:', registration.scope);
             })
