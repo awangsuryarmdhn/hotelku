@@ -48,19 +48,19 @@ class Command(BaseCommand):
         today = timezone.now().date()
         if not Reservation.objects.exists():
             # Active checking in today
-            r1 = Reservation.objects.create(guest=g1, source='direct', check_in=today, check_out=today + timedelta(days=2), adults=2, total_amount=1700000, status='checked_in')
+            r1 = Reservation.objects.create(guest=g1, source='direct', check_in_date=today, check_out_date=today + timedelta(days=2), num_guests=2, status='checked_in')
             r1_room = Room.objects.get(room_number='202')
-            ReservationRoom.objects.create(reservation=r1, room=r1_room, nightly_rate=850000)
+            ReservationRoom.objects.create(reservation=r1, room=r1_room, rate=850000)
             
             # Future booking
-            r2 = Reservation.objects.create(guest=g2, source='ota', check_in=today + timedelta(days=1), check_out=today + timedelta(days=3), adults=2, total_amount=900000, status='confirmed')
+            r2 = Reservation.objects.create(guest=g2, source='other', check_in_date=today + timedelta(days=1), check_out_date=today + timedelta(days=3), num_guests=2, status='confirmed')
             r2_room = Room.objects.get(room_number='101')
-            ReservationRoom.objects.create(reservation=r2, room=r2_room, nightly_rate=450000)
+            ReservationRoom.objects.create(reservation=r2, room=r2_room, rate=450000)
             
             # In-house currently
-            r3 = Reservation.objects.create(guest=g3, source='direct', check_in=today - timedelta(days=1), check_out=today + timedelta(days=1), adults=1, total_amount=450000, status='checked_in')
+            r3 = Reservation.objects.create(guest=g3, source='direct', check_in_date=today - timedelta(days=1), check_out_date=today + timedelta(days=1), num_guests=1, status='checked_in')
             r3_room = Room.objects.get(room_number='102')
-            ReservationRoom.objects.create(reservation=r3, room=r3_room, nightly_rate=450000)
+            ReservationRoom.objects.create(reservation=r3, room=r3_room, rate=450000)
 
         # 5. Menu Categories & Items
         if not MenuCategory.objects.exists():
