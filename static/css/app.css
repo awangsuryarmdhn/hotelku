@@ -43,7 +43,7 @@ h1, h2, h3, h4, h5, h6,
 /* ── Sidebar ─────────────────────────────────── */
 .sidebar {
     width: var(--sidebar-width);
-    min-height: 100vh;
+    height: 100vh;
     background: linear-gradient(180deg, var(--manta-navy) 0%, #0c1425 100%);
     position: fixed;
     left: 0;
