@@ -1,485 +1,266 @@
 /*
- * MantaHotel — Custom Styles
- * ==========================
- * Design Language: "Bali Hospitality"
- * Premium, bold, business-focused UI.
- * Built on top of DaisyUI + Tailwind.
+ * MantaHotel — Property Management System
+ * ==========================================
+ * Design Language: "Premium Corporate Enterprise"
+ * Clean, structured, highly maintainable (No-Spaghetti).
+ * Built with DaisyUI + Tailwind.
  */
 
-/* ── Custom DaisyUI Theme ────────────────────── */
+/* ── 1. CSS Variables & Theming ──────────────── */
 :root {
-    --manta-navy: #0f172a;
+    /* Enterprise Monochrome Palette */
+    --manta-navy: #0f172a;       /* Deep Slate */
     --manta-navy-light: #1e293b;
-    --manta-navy-lighter: #334155;
-    --manta-gold: #d4a853;
-    --manta-gold-light: #e5c07b;
-    --manta-teal: #0ea5e9;
-    --manta-teal-dark: #0284c7;
-    --manta-emerald: #10b981;
-    --manta-coral: #ef4444;
-    --manta-cream: #fefce8;
-    --manta-slate: #94a3b8;
+    --manta-gray-bg: #f8fafc;
+    --manta-border: #e2e8f0;
+    
+    /* Semantic Colors */
+    --manta-accent: #0ea5e9;     /* Sky Blue */
+    --manta-accent-dark: #0284c7;
+    --manta-gold: #c29948;       /* Refined Gold */
+    --manta-success: #10b981;
+    --manta-danger: #ef4444;
 
-    /* Sidebar */
-    --sidebar-width: 260px;
-    --sidebar-collapsed: 64px;
-    --topbar-height: 64px;
+    /* Structural Variables */
+    --sidebar-width: 250px;
+    --topbar-height: 60px;
+    --radius-sm: 4px;            /* Sharp corners for business look */
+    --radius-md: 6px;
+    --radius-container: 8px;
 }
 
-/* ── Typography ──────────────────────────────── */
+/* ── 2. Base Typography ──────────────────────── */
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #f1f5f9;
-    color: #1e293b;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--manta-gray-bg);
+    color: #334155;
+    -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6,
-.font-heading {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
-    letter-spacing: -0.025em;
+    color: var(--manta-navy);
+    letter-spacing: -0.01em;
 }
 
-/* ── Sidebar ─────────────────────────────────── */
+/* ── 3. Layout: Sidebar ──────────────────────── */
 .sidebar {
     width: var(--sidebar-width);
     height: 100vh;
-    background: linear-gradient(180deg, var(--manta-navy) 0%, #0c1425 100%);
+    background: var(--manta-navy);
     position: fixed;
     left: 0;
     top: 0;
     z-index: 40;
-    transition: width 0.3s ease;
+    transition: transform 0.3s ease;
     overflow-y: auto;
-    overflow-x: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.05); /* Sharp separator */
 }
 
 .sidebar-brand {
     padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-brand-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, var(--manta-gold) 0%, var(--manta-gold-light) 100%);
-    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    background: var(--manta-gold);
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 18px;
-    color: var(--manta-navy);
-    flex-shrink: 0;
+    color: white;
 }
 
 .sidebar-brand-text {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 800;
-    font-size: 1.25rem;
+    font-weight: 700;
+    font-size: 1.15rem;
     color: white;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
 }
 
 .sidebar-brand-sub {
     font-size: 0.65rem;
-    color: var(--manta-slate);
+    color: #94a3b8;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
 }
 
-.sidebar-nav {
-    padding: 1rem 0.75rem;
-}
-
-.sidebar-section {
-    margin-bottom: 1.5rem;
-}
-
+/* Navigation Links */
+.sidebar-nav { padding: 1.5rem 1rem; }
+.sidebar-section { margin-bottom: 2rem; }
 .sidebar-section-title {
     font-size: 0.65rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--manta-slate);
+    letter-spacing: 0.1em;
+    color: #64748b;
     padding: 0 0.75rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .sidebar-link {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.625rem 0.75rem;
-    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
     color: #cbd5e1;
-    text-decoration: none;
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     font-weight: 500;
-    transition: all 0.2s ease;
-    margin-bottom: 2px;
+    transition: background 0.15s ease, color 0.15s ease;
+    margin-bottom: 4px;
 }
 
 .sidebar-link:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.06);
     color: white;
 }
 
 .sidebar-link.active {
-    background: linear-gradient(135deg, var(--manta-teal) 0%, var(--manta-teal-dark) 100%);
+    background: var(--manta-accent);
     color: white;
     font-weight: 600;
-    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
 }
 
-.sidebar-link i {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-}
-
-/* ── Main Content Area ───────────────────────── */
+/* ── 4. Layout: Main Content & Topbar ────────── */
 .main-content {
     margin-left: var(--sidebar-width);
     min-height: 100vh;
-    transition: margin-left 0.3s ease;
 }
 
-/* ── Top Bar ─────────────────────────────────── */
 .topbar {
     height: var(--topbar-height);
     background: white;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--manta-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1.5rem;
+    padding: 0 2rem;
     position: sticky;
     top: 0;
     z-index: 30;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.topbar-title {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--manta-navy);
-}
+.page-content { padding: 2rem; }
 
-/* ── Page Content ────────────────────────────── */
-.page-content {
-    padding: 1.5rem;
-}
+/* ── 5. UI Components ────────────────────────── */
 
-/* ── Stat Cards ──────────────────────────────── */
+/* Stat Cards (Solid, Minimalist, Corporate) */
 .stat-card {
     background: white;
-    border-radius: 12px;
-    padding: 1.25rem;
-    border: 1px solid #e2e8f0;
-    transition: all 0.2s ease;
+    border: 1px solid var(--manta-border);
+    border-radius: var(--radius-container);
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02); /* Very subtle shadow */
 }
-
-.stat-card:hover {
-    border-color: var(--manta-teal);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
-    transform: translateY(-1px);
-}
-
-.stat-card-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.stat-card-icon.teal { background: rgba(14, 165, 233, 0.1); color: var(--manta-teal); }
-.stat-card-icon.gold { background: rgba(212, 168, 83, 0.1); color: var(--manta-gold); }
-.stat-card-icon.emerald { background: rgba(16, 185, 129, 0.1); color: var(--manta-emerald); }
-.stat-card-icon.coral { background: rgba(239, 68, 68, 0.1); color: var(--manta-coral); }
-.stat-card-icon.navy { background: rgba(15, 23, 42, 0.08); color: var(--manta-navy); }
 
 .stat-card-value {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1.75rem;
-    font-weight: 800;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--manta-navy);
-    line-height: 1;
-    margin-top: 0.75rem;
+    margin-top: 1rem;
 }
 
 .stat-card-label {
     font-size: 0.8rem;
-    color: var(--manta-slate);
+    color: #64748b;
     margin-top: 0.25rem;
-    font-weight: 500;
 }
 
-/* ── Room Grid Cards ─────────────────────────── */
-.room-card {
-    border-radius: 10px;
-    padding: 0.875rem;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-    min-width: 90px;
-}
-
-.room-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.room-card.available { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
-.room-card.occupied { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
-.room-card.dirty { background: #fffbeb; border-color: #fde68a; color: #92400e; }
-.room-card.maintenance { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
-.room-card.out_of_order { background: #f9fafb; border-color: #d1d5db; color: #6b7280; }
-
-.room-card-number {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 800;
-    font-size: 1.25rem;
-}
-
-.room-card-type {
-    font-size: 0.7rem;
-    font-weight: 500;
-    opacity: 0.8;
-    margin-top: 0.125rem;
-}
-
-/* ── Kanban Board ────────────────────────────── */
-.kanban-column {
-    background: #f8fafc;
-    border-radius: 12px;
-    padding: 1rem;
-    min-height: 400px;
-}
-
-.kanban-column-header {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 700;
-    font-size: 0.875rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid #e2e8f0;
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.kanban-card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 0.875rem;
-    margin-bottom: 0.5rem;
-    transition: all 0.2s ease;
-}
-
-.kanban-card:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* ── Data Tables ─────────────────────────────── */
+/* Data Tables */
 .data-table {
     background: white;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-container);
+    border: 1px solid var(--manta-border);
     overflow-x: auto;
 }
 
-.data-table table {
-    width: 100%;
-}
+.data-table table { width: 100%; border-collapse: collapse; }
 
 .data-table thead th {
-    background: #f8fafc;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 600;
-    font-size: 0.75rem;
+    background: #f1f5f9;
+    font-weight: 700;
+    font-size: 0.725rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--manta-slate);
-    padding: 0.875rem 1rem;
-    border-bottom: 1px solid #e2e8f0;
+    letter-spacing: 0.04em;
+    color: #475569;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--manta-border);
     text-align: left;
 }
 
 .data-table tbody td {
-    padding: 0.875rem 1rem;
+    padding: 1rem 1.25rem;
     border-bottom: 1px solid #f1f5f9;
     font-size: 0.875rem;
-    vertical-align: middle;
+    color: #334155;
 }
 
-.data-table tbody tr:hover {
-    background: #f8fafc;
-}
-
-.data-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-/* ── Buttons ─────────────────────────────────── */
+/* Sharp Buttons */
 .btn-manta {
-    background: linear-gradient(135deg, var(--manta-teal) 0%, var(--manta-teal-dark) 100%);
+    background: var(--manta-navy);
     color: white;
     border: none;
+    border-radius: var(--radius-sm);
     font-weight: 600;
-    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.25);
-    transition: all 0.2s ease;
+    transition: background 0.2s ease;
 }
+.btn-manta:hover { background: var(--manta-navy-light); color: white; }
 
-.btn-manta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
-    color: white;
-}
-
-.btn-gold {
-    background: linear-gradient(135deg, var(--manta-gold) 0%, var(--manta-gold-light) 100%);
-    color: var(--manta-navy);
-    border: none;
+/* Sharp Badges */
+.badge {
+    border-radius: var(--radius-sm);
     font-weight: 600;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
 }
 
-/* ── HTMX Loading Indicator ──────────────────── */
-.htmx-indicator {
-    display: none;
-}
-
-.htmx-request .htmx-indicator {
-    display: inline-flex;
-}
-
-.htmx-request.htmx-indicator {
-    display: inline-flex;
-}
-
-/* ── Toast Notifications ─────────────────────── */
-.toast-container {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.toast-item {
-    animation: slideIn 0.3s ease, fadeOut 0.3s ease 4.7s;
-    animation-fill-mode: forwards;
-}
-
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-}
-
-/* ── Invoice Print Styles ────────────────────── */
-.invoice-container {
+/* Room Grid Cards (Kanban) */
+.room-card {
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    border: 1px solid;
+    text-align: center;
     background: white;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
 }
+.room-card.available { border-left: 4px solid var(--manta-success); border-color: var(--manta-border) var(--manta-border) var(--manta-border) var(--manta-success); }
+.room-card.occupied { border-left: 4px solid var(--manta-danger); border-color: var(--manta-border) var(--manta-border) var(--manta-border) var(--manta-danger); }
 
-@media print {
-    .sidebar, .topbar, .no-print { display: none !important; }
-    .main-content { margin-left: 0 !important; }
-    .page-content { padding: 0 !important; }
-}
-
-/* ── Responsive ──────────────────────────────── */
+/* ── 6. Mobile Responsiveness ────────────────── */
 @media (max-width: 768px) {
-    .sidebar { transform: translateX(-100%); width: var(--sidebar-width); z-index: 50; }
+    .sidebar { transform: translateX(-100%); z-index: 50; }
     .sidebar.open { transform: translateX(0); }
     .main-content { margin-left: 0; }
+    
+    .topbar { padding: 0 1rem; }
     .page-content { padding: 1rem; }
-    .stat-card { padding: 1rem; }
+    .stat-card { padding: 1.25rem; }
     
     .sidebar-backdrop {
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, 0.4);
-        backdrop-filter: blur(2px);
+        background: rgba(15, 23, 42, 0.6);
         z-index: 45;
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.2s ease;
     }
-    
-    .sidebar-backdrop.open {
-        display: block;
-        opacity: 1;
-    }
+    .sidebar-backdrop.open { display: block; opacity: 1; }
 }
 
+/* ── 7. Utilities ────────────────────────────── */
+.htmx-indicator { display: none; }
+.htmx-request .htmx-indicator { display: inline-flex; }
 
-/* ── POS Terminal ────────────────────────────── */
-.pos-item-card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 1rem;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    text-align: center;
-}
-
-.pos-item-card:hover {
-    border-color: var(--manta-teal);
-    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.12);
-}
-
-.pos-item-card.selected {
-    border-color: var(--manta-teal);
-    background: rgba(14, 165, 233, 0.04);
-}
-
-.pos-item-price {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 700;
-    color: var(--manta-teal);
-    margin-top: 0.25rem;
-}
-
-/* ── Calendar ────────────────────────────────── */
-.calendar-cell {
-    min-height: 40px;
-    border: 1px solid #e2e8f0;
-    position: relative;
-}
-
-.calendar-booking {
-    background: var(--manta-teal);
-    color: white;
-    font-size: 0.7rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* ── Badge Overrides ─────────────────────────── */
-.badge {
-    font-weight: 600;
-    font-size: 0.7rem;
-    letter-spacing: 0.02em;
+/* Print Mode for Invoices */
+@media print {
+    .sidebar, .topbar, .no-print { display: none !important; }
+    .main-content { margin-left: 0 !important; }
+    .page-content { padding: 0 !important; }
 }

@@ -22,7 +22,7 @@
         <h3 class="font-heading font-bold mb-3">Billing Summary</h3>
         <div class="space-y-2 mb-4">
             <div class="flex justify-between text-sm"><span class="text-slate-500">Subtotal</span><span class="font-medium">{{ folio.subtotal|idr }}</span></div>
-            <div class="flex justify-between text-sm"><span class="text-slate-500">PB1 Tax ({{ hotel_tax_rate }}%)</span><span class="font-medium">{{ folio.tax_amount|idr }}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Pajak Hotel/PB1 ({{ hotel_tax_rate }}%)</span><span class="font-medium">{{ folio.tax_amount|idr }}</span></div>
             <div class="flex justify-between text-sm"><span class="text-slate-500">Service Charge ({{ hotel_service_charge }}%)</span><span class="font-medium">{{ folio.service_charge_amount|idr }}</span></div>
             <div class="flex justify-between text-base font-bold pt-2 border-t border-slate-200">
                 <span>Grand Total</span><span class="text-sky-600">{{ folio.grand_total|idr }}</span>
