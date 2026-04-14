@@ -40,9 +40,9 @@ class Command(BaseCommand):
             Room.objects.create(room_number='302', room_type=room_types['Family Suite'], floor='3', status='available')
 
         # 3. Guests
-        g1, _ = Guest.objects.get_or_create(email='budi@example.com', defaults={'first_name': 'Budi', 'last_name': 'Santoso', 'phone': '081234567890', 'id_number': '3201234567', 'nationality': 'ID'})
-        g2, _ = Guest.objects.get_or_create(email='siti@example.com', defaults={'first_name': 'Siti', 'last_name': 'Aminah', 'phone': '081298765432', 'id_number': '3209876543', 'nationality': 'ID'})
-        g3, _ = Guest.objects.get_or_create(email='john@example.com', defaults={'first_name': 'John', 'last_name': 'Doe', 'phone': '+123456789', 'id_number': 'P1234567', 'nationality': 'US'})
+        g1, _ = Guest.objects.get_or_create(email='budi@example.com', defaults={'full_name': 'Budi Santoso', 'phone': '081234567890', 'id_number': '3201234567', 'nationality': 'ID'})
+        g2, _ = Guest.objects.get_or_create(email='siti@example.com', defaults={'full_name': 'Siti Aminah', 'phone': '081298765432', 'id_number': '3209876543', 'nationality': 'ID'})
+        g3, _ = Guest.objects.get_or_create(email='john@example.com', defaults={'full_name': 'John Doe', 'phone': '+123456789', 'id_number': 'P1234567', 'nationality': 'US'})
 
         # 4. Reservations (Some past, some active currently)
         today = timezone.now().date()
