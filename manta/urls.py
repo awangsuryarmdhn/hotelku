@@ -8,9 +8,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from .setup_db import setup_database_view
 
 
 urlpatterns = [
+    # Remote DB Setup Command
+    path('setup-db/', setup_database_view),
+
     # PWA Service Worker & Manifest
     path('sw.js', TemplateView.as_view(template_name="sw.js", content_type='application/javascript')),
     path('manifest.json', TemplateView.as_view(template_name="manifest.json", content_type='application/json')),
