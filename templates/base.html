@@ -53,61 +53,61 @@
         <nav class="sidebar-nav">
             <!-- Overview -->
             <div class="sidebar-section">
-                <div class="sidebar-section-title">Overview</div>
+                <div class="sidebar-section-title">Gambaran Umum</div>
                 <a href="{% url 'dashboard:index' %}" class="sidebar-link {% active_nav request '^/$' %}">
                     <i data-lucide="layout-dashboard"></i>
-                    <span>Dashboard</span>
+                    <span>Beranda</span>
                 </a>
             </div>
 
             <!-- Operations -->
             <div class="sidebar-section">
-                <div class="sidebar-section-title">Operations</div>
+                <div class="sidebar-section-title">Operasional</div>
                 <a href="{% url 'frontdesk:board' %}" class="sidebar-link {% active_nav request 'frontdesk' %}">
                     <i data-lucide="concierge-bell"></i>
-                    <span>Front Desk</span>
+                    <span>Resepsionis</span>
                 </a>
                 <a href="{% url 'reservations:list' %}" class="sidebar-link {% active_nav request 'reservations' %}">
                     <i data-lucide="calendar-check"></i>
-                    <span>Reservations</span>
+                    <span>Reservasi</span>
                 </a>
                 <a href="{% url 'rooms:list' %}" class="sidebar-link {% active_nav request 'rooms' %}">
                     <i data-lucide="bed-double"></i>
-                    <span>Rooms</span>
+                    <span>Kamar</span>
                 </a>
                 <a href="{% url 'guests:list' %}" class="sidebar-link {% active_nav request 'guests' %}">
                     <i data-lucide="users"></i>
-                    <span>Guests</span>
+                    <span>Data Tamu</span>
                 </a>
             </div>
 
             <!-- Services -->
             <div class="sidebar-section">
-                <div class="sidebar-section-title">Services</div>
+                <div class="sidebar-section-title">Layanan</div>
                 <a href="{% url 'housekeeping:board' %}" class="sidebar-link {% active_nav request 'housekeeping' %}">
                     <i data-lucide="sparkles"></i>
-                    <span>Housekeeping</span>
+                    <span>Tata Graha</span>
                 </a>
                 <a href="{% url 'billing:list' %}" class="sidebar-link {% active_nav request 'billing' %}">
                     <i data-lucide="receipt"></i>
-                    <span>Billing</span>
+                    <span>Tagihan & Invoice</span>
                 </a>
                 <a href="{% url 'pos:terminal' %}" class="sidebar-link {% active_nav request 'pos' %}">
                     <i data-lucide="utensils-crossed"></i>
-                    <span>POS Terminal</span>
+                    <span>Kasir (F&B)</span>
                 </a>
                 <a href="{% url 'inventory:list' %}" class="sidebar-link {% active_nav request 'inventory' %}">
                     <i data-lucide="package"></i>
-                    <span>Inventory</span>
+                    <span>Inventaris</span>
                 </a>
             </div>
 
             <!-- Insights -->
             <div class="sidebar-section">
-                <div class="sidebar-section-title">Insights</div>
+                <div class="sidebar-section-title">Manajemen</div>
                 <a href="{% url 'reports:index' %}" class="sidebar-link {% active_nav request 'reports' %}">
                     <i data-lucide="bar-chart-3"></i>
-                    <span>Reports</span>
+                    <span>Laporan Analisis</span>
                 </a>
             </div>
         </nav>
@@ -141,14 +141,14 @@
                             <span class="text-slate-900 font-semibold">{{ user.display_name }}</span>
                             <span class="text-xs text-slate-500">{{ user.role|title }}</span>
                         </li>
-                        <li><a href="{% url 'accounts:profile' %}"><i data-lucide="user" class="w-4 h-4"></i> Profile</a></li>
-                        <li><a href="{% url 'admin:index' %}" target="_blank"><i data-lucide="settings" class="w-4 h-4"></i> Admin Panel</a></li>
+                        <li><a href="{% url 'accounts:profile' %}"><i data-lucide="user" class="w-4 h-4"></i> Profil Saya</a></li>
+                        <li><a href="{% url 'admin:index' %}" target="_blank"><i data-lucide="settings" class="w-4 h-4"></i> Konfigurasi Sistem</a></li>
                         <div class="divider my-1"></div>
                         <li>
                             <form method="post" action="{% url 'accounts:logout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class="w-full text-left text-red-600">
-                                    <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
+                                    <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
                                 </button>
                             </form>
                         </li>

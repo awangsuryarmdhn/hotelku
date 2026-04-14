@@ -406,20 +406,12 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* ── Responsive ──────────────────────────────── */
-@media (max-width: 1024px) {
-    .sidebar { width: var(--sidebar-collapsed); }
-    .sidebar .sidebar-brand-text,
-    .sidebar .sidebar-brand-sub,
-    .sidebar .sidebar-section-title,
-    .sidebar .sidebar-link span { display: none; }
-    .main-content { margin-left: var(--sidebar-collapsed); }
-}
-
 @media (max-width: 768px) {
     .sidebar { transform: translateX(-100%); width: var(--sidebar-width); }
     .sidebar.open { transform: translateX(0); }
     .main-content { margin-left: 0; }
 }
+
 
 /* ── POS Terminal ────────────────────────────── */
 .pos-item-card {
