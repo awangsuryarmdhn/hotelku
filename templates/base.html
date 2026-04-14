@@ -56,7 +56,7 @@
                 <div class="sidebar-section-title">Overview</div>
                 <a href="{% url 'dashboard:index' %}" class="sidebar-link {% active_nav request '^/$' %}">
                     <i data-lucide="layout-dashboard"></i>
-                    <span>Beranda</span>
+                    <span>Dashboard</span>
                 </a>
             </div>
 
@@ -65,19 +65,19 @@
                 <div class="sidebar-section-title">Operations</div>
                 <a href="{% url 'frontdesk:board' %}" class="sidebar-link {% active_nav request 'frontdesk' %}">
                     <i data-lucide="concierge-bell"></i>
-                    <span>Resepsionis</span>
+                    <span>Front Desk</span>
                 </a>
                 <a href="{% url 'reservations:list' %}" class="sidebar-link {% active_nav request 'reservations' %}">
                     <i data-lucide="calendar-check"></i>
-                    <span>Reservasi</span>
+                    <span>Reservations</span>
                 </a>
                 <a href="{% url 'rooms:list' %}" class="sidebar-link {% active_nav request 'rooms' %}">
                     <i data-lucide="bed-double"></i>
-                    <span>Kamar</span>
+                    <span>Rooms</span>
                 </a>
                 <a href="{% url 'guests:list' %}" class="sidebar-link {% active_nav request 'guests' %}">
                     <i data-lucide="users"></i>
-                    <span>Buku Tamu</span>
+                    <span>Guests</span>
                 </a>
             </div>
 
@@ -86,11 +86,11 @@
                 <div class="sidebar-section-title">Services</div>
                 <a href="{% url 'housekeeping:board' %}" class="sidebar-link {% active_nav request 'housekeeping' %}">
                     <i data-lucide="sparkles"></i>
-                    <span>Tata Graha</span>
+                    <span>Housekeeping</span>
                 </a>
                 <a href="{% url 'billing:list' %}" class="sidebar-link {% active_nav request 'billing' %}">
                     <i data-lucide="receipt"></i>
-                    <span>Tagihan</span>
+                    <span>Billing</span>
                 </a>
                 <a href="{% url 'pos:terminal' %}" class="sidebar-link {% active_nav request 'pos' %}">
                     <i data-lucide="utensils-crossed"></i>
@@ -98,7 +98,7 @@
                 </a>
                 <a href="{% url 'inventory:list' %}" class="sidebar-link {% active_nav request 'inventory' %}">
                     <i data-lucide="package"></i>
-                    <span>Inventaris</span>
+                    <span>Inventory</span>
                 </a>
             </div>
 
@@ -107,7 +107,7 @@
                 <div class="sidebar-section-title">Insights</div>
                 <a href="{% url 'reports:index' %}" class="sidebar-link {% active_nav request 'reports' %}">
                     <i data-lucide="bar-chart-3"></i>
-                    <span>Laporan</span>
+                    <span>Reports</span>
                 </a>
             </div>
         </nav>
@@ -141,7 +141,7 @@
                             <span class="text-slate-900 font-semibold">{{ user.display_name }}</span>
                             <span class="text-xs text-slate-500">{{ user.role|title }}</span>
                         </li>
-                        <li><a href="{% url 'accounts:profile' %}"><i data-lucide="user" class="w-4 h-4"></i>Profil</a></li>
+                        <li><a href="{% url 'accounts:profile' %}"><i data-lucide="user" class="w-4 h-4"></i> Profile</a></li>
                         <li><a href="{% url 'admin:index' %}" target="_blank"><i data-lucide="settings" class="w-4 h-4"></i> Admin Panel</a></li>
                         <div class="divider my-1"></div>
                         <li>
