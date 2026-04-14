@@ -16,7 +16,12 @@ def setup_database_view(request):
         call_command('migrate', interactive=False)
         response_text += "Migrations completed successfully!\n\n"
         
-        # 2. Create Superuser
+        # 2. Seed Demo Data
+        response_text += "Injecting MantaHotel Demo Data...\n"
+        call_command('seed_demo')
+        response_text += "Demo data successfully seeded!\n\n"
+        
+        # 3. Create Superuser
         response_text += "Checking Admin User...\n"
         User = get_user_model()
         if not User.objects.filter(username='admin').exists():

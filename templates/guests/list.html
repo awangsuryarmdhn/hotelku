@@ -14,7 +14,7 @@
 <!-- Search -->
 <div class="bg-white rounded-xl border border-slate-200 p-4 mb-6">
     <form method="get" hx-get="{% url 'guests:list' %}" hx-target="#guest-table" hx-push-url="true" class="flex gap-3">
-        <input type="text" name="q" value="{{ search_query }}" placeholder="Search by name, phone, or ID..."
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Cari by name, phone, or ID..."
                class="input input-bordered w-full max-w-md" hx-trigger="keyup changed delay:300ms">
         <button type="submit" class="btn btn-ghost"><i data-lucide="search" class="w-4 h-4"></i></button>
     </form>
@@ -25,7 +25,7 @@
     <table>
         <thead>
             <tr>
-                <th>Guest</th>
+                <th>Nama Tamu</th>
                 <th>Phone</th>
                 <th>ID Type</th>
                 <th>Nationality</th>
