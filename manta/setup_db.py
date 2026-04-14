@@ -20,7 +20,7 @@ def setup_database_view(request):
         response_text += "Checking Admin User...\n"
         User = get_user_model()
         if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser('admin', 'admin@mantahotel.com', 'manta2026', display_name='System Admin', role='Owner', phone='08123456789')
+            User.objects.create_superuser('admin', 'admin@mantahotel.com', 'manta2026', role='Owner', phone='08123456789')
             response_text += "SUCCESS: Created user 'admin' with password 'manta2026'.\n"
         else:
             response_text += "Admin user already exists.\n"
