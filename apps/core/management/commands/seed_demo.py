@@ -17,9 +17,9 @@ class Command(BaseCommand):
 
         # 1. Room Types
         types = [
-            {'name': 'Standard Room', 'description': 'Kamar nyaman dan minimalis.', 'base_rate': 450000, 'capacity': 2},
-            {'name': 'Deluxe Ocean View', 'description': 'Pemandangan laut lepas dengan balkon.', 'base_rate': 850000, 'capacity': 2},
-            {'name': 'Family Suite', 'description': 'Ruang luas untuk keluarga.', 'base_rate': 1500000, 'capacity': 4},
+            {'name': 'Standard Room', 'description': 'Kamar nyaman dan minimalis.', 'base_rate': 450000, 'max_occupancy': 2},
+            {'name': 'Deluxe Ocean View', 'description': 'Pemandangan laut lepas dengan balkon.', 'base_rate': 850000, 'max_occupancy': 2},
+            {'name': 'Family Suite', 'description': 'Ruang luas untuk keluarga.', 'base_rate': 1500000, 'max_occupancy': 4},
         ]
         room_types = {}
         for t in types:
