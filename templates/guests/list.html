@@ -5,9 +5,9 @@
 {% block page_title %}Guest Management{% endblock %}
 
 {% block page_actions %}
-<a href="{% url 'guests:create' %}" class="btn btn-manta btn-sm gap-1 rounded-lg">
+<button hx-get="{% url 'guests:create' %}" hx-target="#global-modal-content" class="btn btn-manta btn-sm gap-1 rounded-lg">
     <i data-lucide="user-plus" class="w-4 h-4"></i> Register Guest
-</a>
+</button>
 {% endblock %}
 
 {% block content %}
@@ -55,9 +55,9 @@
                 <td class="text-sm">{{ guest.nationality }}</td>
                 <td><span class="badge badge-ghost badge-sm">{{ guest.total_stays }}</span></td>
                 <td>
-                    <a href="{% url 'guests:edit' guest.pk %}" class="btn btn-ghost btn-xs" onclick="event.stopPropagation()">
+                    <button hx-get="{% url 'guests:edit' guest.pk %}" hx-target="#global-modal-content" class="btn btn-ghost btn-xs" onclick="event.stopPropagation()">
                         <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                    </a>
+                    </button>
                 </td>
             </tr>
             {% empty %}

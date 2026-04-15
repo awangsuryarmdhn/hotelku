@@ -1,0 +1,28 @@
+<div class="modal-box relative">
+    <button onclick="document.getElementById('global-modal').close()" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    <h3 class="font-heading font-bold text-lg mb-4 border-b pb-2">{{ title }}</h3>
+
+    <form hx-post="{% url 'billing:add_payment' folio.pk %}" hx-target="#payment-list" hx-swap="innerHTML" class="space-y-4">
+        {% csrf_token %}
+        
+        <div class="form-control w-full">
+            <label class="label"><span class="label-text font-semibold">Amount (IDR)</span></label>
+            {{ form.amount }}
+        </div>
+
+        <div class="form-control w-full">
+            <label class="label"><span class="label-text font-semibold">Payment Method</span></label>
+            {{ form.method }}
+        </div>
+
+        <div class="form-control w-full">
+            <label class="label"><span class="label-text font-semibold">Reference / Notes</span></label>
+            {{ form.reference }}
+        </div>
+
+        <div class="modal-action">
+            <button type="submit" class="btn btn-success w-full">Record Payment</button>
+        </div>
+    </form>
+</div>
+<script>if(window.lucide) { lucide.createIcons(); }</script>

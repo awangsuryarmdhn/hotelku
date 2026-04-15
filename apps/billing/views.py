@@ -59,6 +59,14 @@ class FolioDetailView(LoginRequiredMixin, View):
 class AddChargeView(FrontDeskMixin, View):
     """Add a charge to a folio."""
     allowed_roles = ['Owner', 'Manager', 'Receptionist']
+    
+    def get(self, request, pk):
+        folio = get_object_or_404(Folio, pk=pk)
+        form = ChargeForm()
+        context = {'form': form, 'folio': folio, 'title': 'Add Charge Item'}
+        if request.htmx:
+            return render(request, 'billing/partials/charge_modal.html', context)
+        return redirect('billing:folio_detail', pk=folio.pk)
 
     def post(self, request, pk):
         folio = get_object_or_404(Folio, pk=pk)
@@ -84,6 +92,14 @@ class AddChargeView(FrontDeskMixin, View):
 class AddPaymentView(FrontDeskMixin, View):
     """Record a payment against a folio."""
     allowed_roles = ['Owner', 'Manager', 'Receptionist']
+    
+    def get(self, request, pk):
+        folio = get_object_or_404(Folio, pk=pk)
+        form = PaymentForm()
+        context = {'form': form, 'folio': folio, 'title': 'Record Payment'}
+        if request.htmx:
+            return render(request, 'billing/partials/payment_modal.html', context)
+        return redirect('billing:folio_detail', pk=folio.pk)
 
     def post(self, request, pk):
         folio = get_object_or_404(Folio, pk=pk)

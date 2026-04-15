@@ -48,7 +48,10 @@ class GuestCreateView(FrontDeskMixin, View):
 
     def get(self, request):
         form = GuestForm()
-        return render(request, 'guests/form.html', {'form': form, 'title': 'Register New Guest'})
+        context = {'form': form, 'title': 'Register New Guest'}
+        if request.htmx:
+            return render(request, 'guests/partials/form_modal.html', context)
+        return render(request, 'guests/form.html', context)
 
     def post(self, request):
         form = GuestForm(request.POST)
@@ -68,7 +71,10 @@ class GuestEditView(FrontDeskMixin, View):
     def get(self, request, pk):
         guest = get_object_or_404(Guest, pk=pk)
         form = GuestForm(instance=guest)
-        return render(request, 'guests/form.html', {'form': form, 'title': f'Edit: {guest.full_name}', 'guest': guest})
+        context = {'form': form, 'title': f'Edit: {guest.full_name}', 'guest': guest}
+        if request.htmx:
+            return render(request, 'guests/partials/form_modal.html', context)
+        return render(request, 'guests/form.html', context)
 
     def post(self, request, pk):
         guest = get_object_or_404(Guest, pk=pk)

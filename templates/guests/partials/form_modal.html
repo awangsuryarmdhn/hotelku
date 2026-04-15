@@ -1,0 +1,53 @@
+<div class="modal-box relative">
+    <button onclick="document.getElementById('global-modal').close()" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    <h3 class="font-heading font-bold text-lg mb-4 border-b pb-2">{{ title }}</h3>
+
+    <form method="post" action="{% if guest %}{% url 'guests:edit' guest.pk %}{% else %}{% url 'guests:create' %}{% endif %}" class="space-y-4">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="form-control w-full">
+                <label class="label"><span class="label-text font-semibold">Full Name</span></label>
+                {{ form.full_name }}
+            </div>
+            <div class="form-control w-full">
+                <label class="label"><span class="label-text font-semibold">Email</span></label>
+                {{ form.email }}
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="form-control w-full">
+                <label class="label"><span class="label-text font-semibold">Phone</span></label>
+                {{ form.phone }}
+            </div>
+            <div class="form-control w-full">
+                <label class="label"><span class="label-text font-semibold">Nationality</span></label>
+                {{ form.nationality }}
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="form-control w-full">
+                <label class="label"><span class="label-text font-semibold">ID Type</span></label>
+                {{ form.id_type }}
+            </div>
+            <div class="form-control w-full">
+                <label class="label"><span class="label-text font-semibold">ID Number</span></label>
+                {{ form.id_number }}
+            </div>
+        </div>
+
+        <div class="form-control w-full">
+            <label class="label cursor-pointer justify-start gap-3">
+                {{ form.is_vip }}
+                <span class="label-text font-semibold">Mark as VIP Guest</span>
+            </label>
+        </div>
+
+        <div class="modal-action">
+            <button type="submit" class="btn btn-manta w-full">Save Guest Profile</button>
+        </div>
+    </form>
+</div>
+<script>if(window.lucide) { lucide.createIcons(); }</script>

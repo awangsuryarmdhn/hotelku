@@ -30,7 +30,12 @@
         <!-- Charges -->
         <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
             <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
-                <h3 class="font-heading font-bold">Charges</h3>
+                <h3 class="font-heading font-bold mr-2">Charges</h3>
+                {% if folio.status == 'open' %}
+                <button hx-get="{% url 'billing:add_charge' folio.pk %}" hx-target="#global-modal-content" class="btn btn-xs btn-manta rounded-lg">
+                    <i data-lucide="plus" class="w-3 h-3"></i> Add Charge
+                </button>
+                {% endif %}
             </div>
             <div id="charge-list">
                 <table class="table table-sm">
@@ -55,28 +60,18 @@
                 </table>
             </div>
 
-            {% if folio.status == 'open' %}
-            <!-- Add Charge Form -->
-            <div class="p-4 border-t border-slate-200 bg-slate-50">
-                <form method="post" action="{% url 'billing:add_charge' folio.pk %}"
-                      hx-post="{% url 'billing:add_charge' folio.pk %}" hx-target="#charge-list" hx-swap="innerHTML">
-                    {% csrf_token %}
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
-                        {{ charge_form.charge_type }}
-                        {{ charge_form.description }}
-                        {{ charge_form.amount }}
-                        {{ charge_form.quantity }}
-                        <button type="submit" class="btn btn-sm btn-manta rounded-lg">+ Add</button>
-                    </div>
-                </form>
-            </div>
-            {% endif %}
+            <!-- Inline forms removed in favor of Modals -->
         </div>
 
         <!-- Payments -->
         <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
-            <div class="px-5 py-4 border-b border-slate-200">
+            <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
                 <h3 class="font-heading font-bold">Payments</h3>
+                {% if folio.status == 'open' %}
+                <button hx-get="{% url 'billing:add_payment' folio.pk %}" hx-target="#global-modal-content" class="btn btn-xs btn-success rounded-lg">
+                    <i data-lucide="plus" class="w-3 h-3"></i> Record Payment
+                </button>
+                {% endif %}
             </div>
             <div id="payment-list">
                 <table class="table table-sm">
@@ -101,19 +96,7 @@
                 </table>
             </div>
 
-            <!-- Add Payment Form -->
-            <div class="p-4 border-t border-slate-200 bg-slate-50">
-                <form method="post" action="{% url 'billing:add_payment' folio.pk %}"
-                      hx-post="{% url 'billing:add_payment' folio.pk %}" hx-target="#payment-list" hx-swap="innerHTML">
-                    {% csrf_token %}
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        {{ payment_form.amount }}
-                        {{ payment_form.method }}
-                        {{ payment_form.reference }}
-                        <button type="submit" class="btn btn-sm btn-success rounded-lg">+ Payment</button>
-                    </div>
-                </form>
-            </div>
+            <!-- Inline forms removed in favor of Modals -->
         </div>
     </div>
 
