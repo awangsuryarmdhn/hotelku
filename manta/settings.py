@@ -1,7 +1,7 @@
 """
-MantaHotel — Django Settings
-============================
-Complete configuration for the MantaHotel PMS.
+Grand Nirwana Hotel — Django Settings
+======================================
+Complete configuration for the Grand Nirwana Hotel PMS.
 Uses django-environ to load settings from .env file.
 """
 import os

@@ -65,15 +65,20 @@ class ReservationCreateView(FrontDeskMixin, View):
             reservation.created_by = request.user
             reservation.save()
 
-            # Assign rooms
+            # Assign rooms — fetch all in one query to avoid N+1
             room_ids = request.POST.getlist('room_ids')
+            rooms_by_id = {
+                str(r.pk): r
+                for r in Room.objects.filter(pk__in=room_ids)
+            }
             for room_id in room_ids:
-                room = Room.objects.get(pk=room_id)
-                ReservationRoom.objects.create(
-                    reservation=reservation,
-                    room=room,
-                    rate=room.nightly_rate
-                )
+                room = rooms_by_id.get(room_id)
+                if room:
+                    ReservationRoom.objects.create(
+                        reservation=reservation,
+                        room=room,
+                        rate=room.nightly_rate
+                    )
 
             messages.success(request, f'Reservation {reservation.reservation_code} created.')
             return redirect('reservations:detail', pk=reservation.pk)

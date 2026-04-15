@@ -55,9 +55,9 @@ class POSCreateOrderView(POSMixin, View):
             created_by=request.user,
         )
 
-        # Link to room if room charge
+        # Link to room if room charge — use get_object_or_404 for safety
         if payment_type == 'room_charge' and room_id:
-            room = Room.objects.get(pk=room_id)
+            room = get_object_or_404(Room, pk=room_id)
             order.room = room
 
             # Find active folio for this room
@@ -72,10 +72,16 @@ class POSCreateOrderView(POSMixin, View):
 
             order.save()
 
-        # Add items to order
+        # Add items to order — fetch all menu items in one query to avoid N+1
+        menu_items_by_id = {
+            str(item.pk): item
+            for item in MenuItem.objects.filter(pk__in=item_ids)
+        }
         for i, item_id in enumerate(item_ids):
             if item_id:
-                menu_item = MenuItem.objects.get(pk=item_id)
+                menu_item = menu_items_by_id.get(item_id)
+                if not menu_item:
+                    continue
                 qty = int(quantities[i]) if i < len(quantities) else 1
 
                 PosOrderItem.objects.create(
