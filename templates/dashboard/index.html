@@ -121,9 +121,9 @@
                     <div class="font-semibold text-sm text-slate-900">{{ res.guest.full_name }}</div>
                     <div class="text-xs text-slate-500">{{ res.reservation_code }}</div>
                 </div>
-                <a href="{% url 'frontdesk:checkin' res.pk %}" class="btn btn-sm btn-manta rounded-lg">
+                <button hx-get="{% url 'frontdesk:checkin' res.pk %}" hx-target="#global-modal-content" class="btn btn-sm btn-manta rounded-lg">
                     Check-in
-                </a>
+                </button>
             </div>
             {% endfor %}
         </div>
@@ -149,9 +149,9 @@
                     <div class="font-semibold text-sm text-slate-900">{{ res.guest.full_name }}</div>
                     <div class="text-xs text-slate-500">{{ res.reservation_code }}</div>
                 </div>
-                <a href="{% url 'frontdesk:checkout' res.pk %}" class="btn btn-sm btn-outline btn-error rounded-lg">
-                    Check Out
-                </a>
+                <button hx-get="{% url 'frontdesk:checkout' res.pk %}" hx-target="#global-modal-content" class="btn btn-sm btn-outline btn-error rounded-lg">
+                    Check-out
+                </button>
             </div>
             {% endfor %}
         </div>
