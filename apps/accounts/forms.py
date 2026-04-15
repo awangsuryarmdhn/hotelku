@@ -10,7 +10,7 @@ class LoginForm(forms.Form):
         max_length=150,
         widget=forms.TextInput(attrs={
             'class': 'input input-bordered w-full',
-            'placeholder': 'Enter your username',
+            'placeholder': 'Masukkan username Anda',
             'autofocus': True,
             'id': 'login-username',
         })
@@ -18,7 +18,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'input input-bordered w-full',
-            'placeholder': 'Enter your password',
+            'placeholder': 'Masukkan password Anda',
             'id': 'login-password',
         })
     )

@@ -78,7 +78,7 @@ class CheckInView(FrontDeskMixin, View):
         reservation = get_object_or_404(Reservation, pk=pk)
 
         if reservation.status != 'confirmed':
-            messages.error(request, 'This reservation cannot be checked in.')
+            messages.error(request, 'Reservasi ini tidak dapat di-check-in.')
             return redirect('frontdesk:board')
 
         # 1. Update reservation status
@@ -113,7 +113,7 @@ class CheckInView(FrontDeskMixin, View):
         # 5. Update guest stay count
         reservation.guest.increment_stays()
 
-        messages.success(request, f'Guest {reservation.guest.full_name} checked in successfully.')
+        messages.success(request, f'Tamu {reservation.guest.full_name} berhasil check-in.')
         return redirect('frontdesk:board')
 
 
@@ -142,7 +142,7 @@ class CheckOutView(FrontDeskMixin, View):
         reservation = get_object_or_404(Reservation, pk=pk)
 
         if reservation.status != 'checked_in':
-            messages.error(request, 'This reservation is not checked in.')
+            messages.error(request, 'Tamu pada reservasi ini belum check-in.')
             return redirect('frontdesk:board')
 
         # 1. Update reservation status
@@ -170,7 +170,7 @@ class CheckOutView(FrontDeskMixin, View):
                 priority='normal',
             )
 
-        messages.success(request, f'Guest {reservation.guest.full_name} checked out.')
+        messages.success(request, f'Tamu {reservation.guest.full_name} berhasil check-out.')
         return redirect('frontdesk:board')
 
 

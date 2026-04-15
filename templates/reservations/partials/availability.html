@@ -2,16 +2,16 @@
 {% for room in rooms %}
 <div class="flex items-center justify-between py-2 px-3 bg-emerald-50 rounded-lg">
     <div>
-        <span class="font-bold">Room {{ room.room_number }}</span>
-        <span class="text-sm text-slate-500">{{ room.room_type.name }} · Floor {{ room.floor }}</span>
+        <span class="font-bold">Kamar {{ room.room_number }}</span>
+        <span class="text-sm text-slate-500">{{ room.room_type.name }} · Lantai {{ room.floor }}</span>
     </div>
     <div class="flex items-center gap-2">
-        <span class="text-sm font-medium">{{ room.nightly_rate|idr }}/night</span>
+        <span class="text-sm font-medium">{{ room.nightly_rate|idr }}/malam</span>
         <label class="cursor-pointer">
             <input type="checkbox" name="room_ids" value="{{ room.pk }}" class="checkbox checkbox-sm checkbox-primary">
         </label>
     </div>
 </div>
 {% empty %}
-<p class="text-sm text-slate-400 text-center py-4">No rooms available for the selected dates</p>
+<p class="text-sm text-slate-400 text-center py-4">Tidak ada kamar tersedia untuk tanggal yang dipilih</p>
 {% endfor %}

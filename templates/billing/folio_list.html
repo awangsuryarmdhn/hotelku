@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 {% load manta_tags %}
 
-{% block title %}Billing{% endblock %}
-{% block page_title %}Billing & Invoices{% endblock %}
+{% block title %}Tagihan{% endblock %}
+{% block page_title %}Tagihan &amp; Invoice{% endblock %}
 
 {% block content %}
 <div class="data-table">
     <table>
         <thead><tr>
-            <th>Invoice #</th>
-            <th>Guest</th>
-            <th>Status</th>
-            <th>Payment</th>
+            <th>No. Invoice</th>
+            <th>Nama Tamu</th>
+            <th>Status Folio</th>
+            <th>Pembayaran</th>
             <th>Total</th>
-            <th>Balance</th>
-            <th>Actions</th>
+            <th>Sisa</th>
+            <th>Aksi</th>
         </tr></thead>
         <tbody>
             {% for folio in folios %}
@@ -26,12 +26,12 @@
                 <td class="text-sm font-semibold">{{ folio.grand_total|idr }}</td>
                 <td class="text-sm font-semibold {% if folio.balance_due > 0 %}text-red-600{% else %}text-emerald-600{% endif %}">{{ folio.balance_due|idr }}</td>
                 <td>
-                    <a href="{% url 'billing:folio_detail' folio.pk %}" class="btn btn-ghost btn-xs">View</a>
+                    <a href="{% url 'billing:folio_detail' folio.pk %}" class="btn btn-ghost btn-xs">Lihat</a>
                     <a href="{% url 'billing:invoice' folio.pk %}" class="btn btn-ghost btn-xs" target="_blank"><i data-lucide="printer" class="w-3.5 h-3.5"></i></a>
                 </td>
             </tr>
             {% empty %}
-            <tr><td colspan="7" class="text-center py-12 text-slate-400">No folios yet</td></tr>
+            <tr><td colspan="7" class="text-center py-12 text-slate-400">Belum ada tagihan</td></tr>
             {% endfor %}
         </tbody>
     </table>
