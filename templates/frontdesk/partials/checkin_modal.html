@@ -1,0 +1,44 @@
+<div class="modal-box relative">
+    <button onclick="document.getElementById('global-modal').close()" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    <h3 class="font-heading font-bold text-lg mb-4 border-b pb-2">Check In Guest</h3>
+
+    <div class="flex items-center gap-4 mb-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-manta-400 to-manta-600 flex items-center justify-center text-white font-bold text-lg">
+            {{ reservation.guest.initials }}
+        </div>
+        <div>
+            <div class="font-bold whitespace-nowrap">{{ reservation.guest.full_name }}</div>
+            <div class="text-sm text-slate-500">{{ reservation.reservation_code }}</div>
+        </div>
+    </div>
+
+    <div class="space-y-3 mb-6 bg-slate-50 p-3 rounded-lg border border-slate-100">
+        <div>
+            <div class="text-xs text-slate-500 uppercase tracking-wide font-semibold">Rooms</div>
+            <div class="font-medium">
+                {% for rr in reservation_rooms %}
+                    Room {{ rr.room.room_number }} ({{ rr.room.room_type.name }}){% if not forloop.last %}<br>{% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="text-xs text-slate-500 uppercase tracking-wide font-semibold">Duration</div>
+                <div class="font-medium">{{ reservation.nights }} Nights</div>
+            </div>
+            <div>
+                <div class="text-xs text-slate-500 uppercase tracking-wide font-semibold">Guest</div>
+                <div class="font-medium">{{ reservation.adults }} Adults, {{ reservation.children }} Kids</div>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" action="{% url 'frontdesk:checkin' reservation.pk %}" class="modal-action mt-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-manta gap-2 w-full">
+            <i data-lucide="log-in" class="w-4 h-4"></i> Confirm Check-In
+        </button>
+    </form>
+</div>
+<!-- Re-initialize icons just for this partial -->
+<script>if(window.lucide) { lucide.createIcons(); }</script>

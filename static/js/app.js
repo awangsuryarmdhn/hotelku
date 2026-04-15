@@ -241,6 +241,23 @@ document.body.addEventListener('htmx:configRequest', function (event) {
     }
 });
 
+// ── HTMX Modal Handling (DaisyUI) ────────────────
+// When HTMX loads content into the modal container, open the dialog
+document.body.addEventListener('htmx:afterSwap', function (event) {
+    if (event.detail.target.id === 'global-modal-content') {
+        var modal = document.getElementById('global-modal');
+        if (modal) modal.showModal();
+    }
+});
+// When forms inside modal are submitted successfully (and we get a redirect or empty response with 200/204)
+document.body.addEventListener('htmx:beforeSwap', function (event) {
+    if (event.detail.target.id === 'global-modal-content' && !event.detail.xhr.response) {
+        // Empty response means success closing modal
+        var modal = document.getElementById('global-modal');
+        if (modal) modal.close();
+    }
+});
+
 // ── PWA Service Worker ───────────────────────────
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {

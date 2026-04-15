@@ -1,0 +1,48 @@
+{% load manta_tags %}
+<div class="modal-box relative max-w-md">
+    <button onclick="document.getElementById('global-modal').close()" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    <h3 class="font-heading font-bold text-lg mb-4 border-b pb-2">Check Out Guest</h3>
+
+    <div class="flex items-center gap-4 mb-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white font-bold text-lg">
+            {{ reservation.guest.initials }}
+        </div>
+        <div>
+            <div class="font-bold">{{ reservation.guest.full_name }}</div>
+            <div class="text-sm text-slate-500">{{ reservation.reservation_code }}</div>
+        </div>
+    </div>
+
+    {% if folio %}
+    <!-- Folio Summary -->
+    <div class="bg-slate-50 rounded-lg p-3 border border-slate-100 mb-4 space-y-2">
+        <div class="flex justify-between text-sm"><span class="text-slate-500">Subtotal</span><span class="font-medium">{{ folio.subtotal|idr }}</span></div>
+        <div class="flex justify-between text-sm"><span class="text-slate-500">Tax & Svc</span><span class="font-medium">Rp {{ folio.tax_amount|add:folio.service_charge_amount|idr|slice:"3:" }}</span></div>
+        <div class="flex justify-between text-sm font-bold pt-1 border-t border-slate-200">
+            <span>Grand Total</span><span class="text-sky-600">{{ folio.grand_total|idr }}</span>
+        </div>
+        <div class="flex justify-between text-sm"><span class="text-slate-500">Paid</span><span class="text-emerald-600 font-medium">{{ folio.total_paid|idr }}</span></div>
+        <div class="flex justify-between text-sm font-bold">
+            <span>Balance Due</span>
+            <span class="{% if folio.balance_due > 0 %}text-red-600{% else %}text-emerald-600{% endif %}">
+                {{ folio.balance_due|idr }}
+            </span>
+        </div>
+    </div>
+
+    {% if folio.balance_due > 0 %}
+    <div class="alert alert-warning mb-4 rounded-lg p-3 text-sm">
+        <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0"></i>
+        <span>Outstanding balance of <strong>{{ folio.balance_due|idr }}</strong>. Please collect payment from folio before check-out.</span>
+    </div>
+    {% endif %}
+    {% endif %}
+
+    <form method="post" action="{% url 'frontdesk:checkout' reservation.pk %}" class="modal-action mt-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-error gap-2 w-full">
+            <i data-lucide="log-out" class="w-4 h-4"></i> Confirm Check-Out
+        </button>
+    </form>
+</div>
+<script>if(window.lucide) { lucide.createIcons(); }</script>

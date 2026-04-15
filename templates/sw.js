@@ -1,23 +1,29 @@
 /**
- * MantaHotel — Service Worker (PWA)
+ * Grand Nirwana Hotel — Service Worker (PWA)
  * Served from Root for Full Scope Coverage
  */
 
-var CACHE_NAME = 'mantahotel-v2';
+var CACHE_NAME = 'nirwana-v3';
 var STATIC_ASSETS = [
     '/static/css/app.css',
     '/static/js/app.js',
+    '/static/css/fonts.css',
+    '/static/css/daisyui.min.css',
+    '/static/js/tailwind.min.js',
+    '/static/js/htmx.min.js',
+    '/static/js/alpine.min.js',
+    '/static/js/lucide.min.js',
     '/manifest.json'
 ];
 
 /* Install — cache static assets */
 self.addEventListener('install', function (event) {
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(function (cache) {
             return cache.addAll(STATIC_ASSETS);
         })
     );
-    self.skipWaiting();
 });
 
 /* Activate — clean old caches */
@@ -25,10 +31,10 @@ self.addEventListener('activate', function (event) {
     event.waitUntil(
         caches.keys().then(function (cacheNames) {
             return Promise.all(
-                cacheNames.filter(function (cacheName) {
-                    return cacheName !== CACHE_NAME;
-                }).map(function (cacheName) {
-                    return caches.delete(cacheName);
+                cacheNames.map(function (cacheName) {
+                    if (cacheName !== CACHE_NAME) {
+                        return caches.delete(cacheName);
+                    }
                 })
             );
         })
@@ -36,33 +42,26 @@ self.addEventListener('activate', function (event) {
     self.clients.claim();
 });
 
-/* Fetch — Network First, Cache Fallback */
+/* Fetch Strategy */
 self.addEventListener('fetch', function (event) {
-    /* Skip non-GET requests */
     if (event.request.method !== 'GET') return;
 
-    /* Network First Strategy for all requests */
-    event.respondWith(
-        fetch(event.request)
-            .then(function (response) {
-                // If response is valid, clone it and cache it for future offline use
-                if (response && response.status === 200 && response.type === 'basic') {
-                    var responseToCache = response.clone();
-                    caches.open(CACHE_NAME).then(function(cache) {
-                        cache.put(event.request, responseToCache);
+    // 1. For static files, try Cache First, then Network
+    if (event.request.url.includes('/static/') || event.request.url.includes('manifest.json')) {
+        event.respondWith(
+            caches.match(event.request).then(function (response) {
+                return response || fetch(event.request).then(function (fetchRes) {
+                    return caches.open(CACHE_NAME).then(function (cache) {
+                        cache.put(event.request, fetchRes.clone());
+                        return fetchRes;
                     });
-                }
-                return response;
-            })
-            .catch(function () {
-                // Network failed (offline), try the cache
-                return caches.match(event.request).then(function (response) {
-                    if (response) {
-                        return response;
-                    }
-                    // Optional: return a custom offline.html page here if neither network nor cache works
-                    console.log("Offline mode, resource not in cache:", event.request.url);
                 });
             })
-    );
+        );
+        return;
+    }
+
+    // 2. For everything else (HTML, API, HTMX), always use Network Only
+    // This prevents "stuck" state and logout bugs.
+    event.respondWith(fetch(event.request));
 });

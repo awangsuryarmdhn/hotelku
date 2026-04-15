@@ -59,7 +59,7 @@
                 <td class="font-mono text-sm text-sky-600">{{ res.reservation_code }}</td>
                 <td class="text-sm">{% for rr in res.reservation_rooms.all %}{{ rr.room.room_number }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                 <td class="text-sm">{{ res.nights }}</td>
-                <td><a href="{% url 'frontdesk:checkin' res.pk %}" class="btn btn-sm btn-manta rounded-lg gap-1"><i data-lucide="log-in" class="w-3.5 h-3.5"></i>Check In</a></td>
+                <td><button hx-get="{% url 'frontdesk:checkin' res.pk %}" hx-target="#global-modal-content" class="btn btn-sm btn-manta rounded-lg gap-1"><i data-lucide="log-in" class="w-3.5 h-3.5"></i>Check In</button></td>
             </tr>
             {% empty %}
             <tr><td colspan="5" class="text-center py-6 text-slate-400">No arrivals expected today</td></tr>
@@ -93,7 +93,7 @@
                 <td class="text-sm">{{ res.check_out_date|date:"d M" }}</td>
                 <td class="flex gap-1">
                     {% if res.check_out_date == today %}
-                    <a href="{% url 'frontdesk:checkout' res.pk %}" class="btn btn-sm btn-outline btn-error rounded-lg">Check Out</a>
+                    <button hx-get="{% url 'frontdesk:checkout' res.pk %}" hx-target="#global-modal-content" class="btn btn-sm btn-outline btn-error rounded-lg">Check Out</button>
                     {% endif %}
                     <a href="{% url 'reservations:detail' res.pk %}" class="btn btn-ghost btn-xs"><i data-lucide="eye" class="w-3.5 h-3.5"></i></a>
                 </td>
@@ -126,7 +126,7 @@
                 <td><span class="font-semibold text-sm">{{ res.guest.full_name }}</span></td>
                 <td class="text-sm">{% for rr in res.reservation_rooms.all %}{{ rr.room.room_number }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                 <td class="font-mono text-sm text-sky-600">{{ res.reservation_code }}</td>
-                <td><a href="{% url 'frontdesk:checkout' res.pk %}" class="btn btn-sm btn-outline btn-error rounded-lg gap-1"><i data-lucide="log-out" class="w-3.5 h-3.5"></i>Check Out</a></td>
+                <td><button hx-get="{% url 'frontdesk:checkout' res.pk %}" hx-target="#global-modal-content" class="btn btn-sm btn-outline btn-error rounded-lg gap-1"><i data-lucide="log-out" class="w-3.5 h-3.5"></i>Check Out</button></td>
             </tr>
             {% empty %}
             <tr><td colspan="4" class="text-center py-6 text-slate-400">No departures today</td></tr>

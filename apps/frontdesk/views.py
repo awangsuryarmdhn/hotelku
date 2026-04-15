@@ -70,6 +70,8 @@ class CheckInView(FrontDeskMixin, View):
             'reservation': reservation,
             'reservation_rooms': reservation_rooms,
         }
+        if request.htmx:
+            return render(request, 'frontdesk/partials/checkin_modal.html', context)
         return render(request, 'frontdesk/checkin.html', context)
 
     def post(self, request, pk):
@@ -132,6 +134,8 @@ class CheckOutView(FrontDeskMixin, View):
             'folio': folio,
             'reservation_rooms': reservation_rooms,
         }
+        if request.htmx:
+            return render(request, 'frontdesk/partials/checkout_modal.html', context)
         return render(request, 'frontdesk/checkout.html', context)
 
     def post(self, request, pk):
