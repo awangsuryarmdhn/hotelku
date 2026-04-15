@@ -17,7 +17,8 @@
     <!-- Ringkasan Tagihan -->
     <div class="bg-slate-50 rounded-lg p-3 border border-slate-100 mb-4 space-y-2">
         <div class="flex justify-between text-sm"><span class="text-slate-500">Subtotal</span><span class="font-medium">{{ folio.subtotal|idr }}</span></div>
-        <div class="flex justify-between text-sm"><span class="text-slate-500">Pajak & Servis</span><span class="font-medium">{{ folio.tax_amount|idr }}</span></div>
+        <div class="flex justify-between text-sm"><span class="text-slate-500">Pajak PB1</span><span class="font-medium">{{ folio.tax_amount|idr }}</span></div>
+        <div class="flex justify-between text-sm"><span class="text-slate-500">Biaya Servis</span><span class="font-medium">{{ folio.service_charge_amount|idr }}</span></div>
         <div class="flex justify-between text-sm font-bold pt-1 border-t border-slate-200">
             <span>Total Tagihan</span><span class="text-sky-600">{{ folio.grand_total|idr }}</span>
         </div>
