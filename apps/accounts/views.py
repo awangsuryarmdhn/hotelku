@@ -29,7 +29,7 @@ class LoginView(View):
                 next_url = request.GET.get('next', '/')
                 return redirect(next_url)
             else:
-                form.add_error(None, 'Invalid username or password.')
+                form.add_error(None, 'Username atau password salah. Silakan coba lagi.')
         return render(request, 'accounts/login.html', {'form': form})
 
 

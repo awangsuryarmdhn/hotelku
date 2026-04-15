@@ -111,7 +111,7 @@ class RoomStatusUpdateView(FrontDeskMixin, View):
         new_status = request.POST.get('status')
         if new_status in dict(Room.STATUS_CHOICES):
             room.set_status(new_status)
-            messages.success(request, f'Room {room.room_number} → {room.get_status_display()}')
+            messages.success(request, f'Kamar {room.room_number} → {room.get_status_display()}')
         if request.htmx:
             return render(request, 'rooms/partials/room_card.html', {'room': room})
         return redirect('rooms:list')

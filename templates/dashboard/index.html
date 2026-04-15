@@ -121,7 +121,7 @@
                     <div class="font-semibold text-sm text-slate-900">{{ res.guest.full_name }}</div>
                     <div class="text-xs text-slate-500">{{ res.reservation_code }}</div>
                 </div>
-                <button hx-get="{% url 'frontdesk:checkin' res.pk %}" hx-target="#global-modal-content" class="btn btn-sm btn-manta rounded-lg">
+                <button hx-get="{% url 'frontdesk:checkin' res.pk %}" hx-target="#global-modal-content" hx-swap="innerHTML" class="btn btn-sm btn-manta rounded-lg">
                     Check-in
                 </button>
             </div>
@@ -138,8 +138,8 @@
     <!-- Today's Departures -->
     <div class="bg-white rounded-xl border border-slate-200 p-5">
         <h3 class="font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="log-out" class="w-5 h-5 text-coral"></i>
-            Today's Departures
+            <i data-lucide="log-out" class="w-5 h-5 text-red-500"></i>
+            Tamu Keluar (Check-out)
         </h3>
         {% if departures %}
         <div class="space-y-2">
@@ -149,7 +149,7 @@
                     <div class="font-semibold text-sm text-slate-900">{{ res.guest.full_name }}</div>
                     <div class="text-xs text-slate-500">{{ res.reservation_code }}</div>
                 </div>
-                <button hx-get="{% url 'frontdesk:checkout' res.pk %}" hx-target="#global-modal-content" class="btn btn-sm btn-outline btn-error rounded-lg">
+                <button hx-get="{% url 'frontdesk:checkout' res.pk %}" hx-target="#global-modal-content" hx-swap="innerHTML" class="btn btn-sm btn-outline btn-error rounded-lg">
                     Check-out
                 </button>
             </div>
@@ -158,7 +158,7 @@
         {% else %}
         <div class="text-center py-8 text-slate-400">
             <i data-lucide="moon" class="w-10 h-10 mx-auto mb-2 opacity-40"></i>
-            <p class="text-sm">No departures today</p>
+            <p class="text-sm">Tidak ada jadwal check-out hari ini</p>
         </div>
         {% endif %}
     </div>
@@ -204,7 +204,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" class="text-center py-8 text-slate-400">No reservations yet</td>
+                    <td colspan="6" class="text-center py-8 text-slate-400">Belum ada reservasi</td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load manta_tags %}
 
-{% block title %}Check Out — {{ reservation.guest.full_name }}{% endblock %}
-{% block page_title %}Check Out Guest{% endblock %}
+{% block title %}Check-out — {{ reservation.guest.full_name }}{% endblock %}
+{% block page_title %}Check-out Tamu{% endblock %}
 
 {% block content %}
 <div class="max-w-2xl">
@@ -18,18 +18,18 @@
         </div>
 
         {% if folio %}
-        <!-- Folio Summary -->
-        <h3 class="font-heading font-bold mb-3">Billing Summary</h3>
+        <!-- Ringkasan Tagihan -->
+        <h3 class="font-heading font-bold mb-3">Ringkasan Tagihan</h3>
         <div class="space-y-2 mb-4">
             <div class="flex justify-between text-sm"><span class="text-slate-500">Subtotal</span><span class="font-medium">{{ folio.subtotal|idr }}</span></div>
             <div class="flex justify-between text-sm"><span class="text-slate-500">Pajak Hotel/PB1 ({{ hotel_tax_rate }}%)</span><span class="font-medium">{{ folio.tax_amount|idr }}</span></div>
-            <div class="flex justify-between text-sm"><span class="text-slate-500">Service Charge ({{ hotel_service_charge }}%)</span><span class="font-medium">{{ folio.service_charge_amount|idr }}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Biaya Servis ({{ hotel_service_charge }}%)</span><span class="font-medium">{{ folio.service_charge_amount|idr }}</span></div>
             <div class="flex justify-between text-base font-bold pt-2 border-t border-slate-200">
-                <span>Grand Total</span><span class="text-sky-600">{{ folio.grand_total|idr }}</span>
+                <span>Total Tagihan</span><span class="text-sky-600">{{ folio.grand_total|idr }}</span>
             </div>
-            <div class="flex justify-between text-sm"><span class="text-slate-500">Paid</span><span class="text-emerald-600 font-medium">{{ folio.total_paid|idr }}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Sudah Dibayar</span><span class="text-emerald-600 font-medium">{{ folio.total_paid|idr }}</span></div>
             <div class="flex justify-between text-base font-bold">
-                <span>Balance Due</span>
+                <span>Sisa Tagihan</span>
                 <span class="{% if folio.balance_due > 0 %}text-red-600{% else %}text-emerald-600{% endif %}">
                     {{ folio.balance_due|idr }}
                 </span>
@@ -39,9 +39,9 @@
         {% if folio.balance_due > 0 %}
         <div class="alert alert-warning mb-4 rounded-lg">
             <i data-lucide="alert-triangle" class="w-5 h-5"></i>
-            <span>Outstanding balance of <strong>{{ folio.balance_due|idr }}</strong>. Please collect payment before check-out.</span>
+            <span>Masih ada tagihan <strong>{{ folio.balance_due|idr }}</strong>. Selesaikan pembayaran sebelum check-out.</span>
         </div>
-        <a href="{% url 'billing:folio_detail' folio.pk %}" class="btn btn-ghost btn-sm mb-4 w-full">Open Folio & Add Payment →</a>
+        <a href="{% url 'billing:folio_detail' folio.pk %}" class="btn btn-ghost btn-sm mb-4 w-full">Buka Folio & Tambah Pembayaran →</a>
         {% endif %}
         {% endif %}
 
@@ -50,9 +50,9 @@
             <div class="flex gap-3">
                 <button type="submit" class="btn btn-error rounded-lg gap-2 flex-1">
                     <i data-lucide="log-out" class="w-5 h-5"></i>
-                    Confirm Check-Out
+                    Konfirmasi Check-out
                 </button>
-                <a href="{% url 'frontdesk:board' %}" class="btn btn-ghost rounded-lg">Cancel</a>
+                <a href="{% url 'frontdesk:board' %}" class="btn btn-ghost rounded-lg">Batal</a>
             </div>
         </form>
     </div>

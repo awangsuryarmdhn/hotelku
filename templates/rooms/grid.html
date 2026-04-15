@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% load manta_tags %}
+
 {% block title %}Denah Kamar{% endblock %}
 {% block page_title %}Denah Kamar (Grid){% endblock %}
 
@@ -22,13 +25,14 @@
 <div class="mb-6">
     <h3 class="font-heading font-bold text-lg text-slate-900 mb-3 flex items-center gap-2">
         <i data-lucide="layers" class="w-5 h-5 text-sky-500"></i>
-        Floor {{ floor }}
+        Lantai {{ floor }}
     </h3>
     <div class="flex flex-wrap gap-3">
         {% for room in rooms %}
         <div class="room-card {{ room.status }}"
              hx-get="{% url 'rooms:edit' room.pk %}"
-             hx-target="#global-modal-content">
+             hx-target="#global-modal-content"
+             hx-swap="innerHTML">
             <div class="room-card-number">{{ room.room_number }}</div>
             <div class="room-card-type">{{ room.room_type.name }}</div>
         </div>
@@ -38,8 +42,8 @@
 {% empty %}
 <div class="text-center py-16 text-slate-400">
     <i data-lucide="grid-3x3" class="w-16 h-16 mx-auto mb-4 opacity-30"></i>
-    <p class="text-lg font-medium">No rooms configured yet</p>
-    <a href="{% url 'rooms:create' %}" class="btn btn-manta mt-4">Add Rooms</a>
+    <p class="text-lg font-medium">Belum ada kamar yang dikonfigurasi</p>
+    <a href="{% url 'rooms:create' %}" class="btn btn-manta mt-4">Tambah Kamar</a>
 </div>
 {% endfor %}
 {% endblock %}

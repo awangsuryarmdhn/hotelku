@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load manta_tags %}
 
-{% block title %}Check In — {{ reservation.guest.full_name }}{% endblock %}
-{% block page_title %}Check In Guest{% endblock %}
+{% block title %}Check-in — {{ reservation.guest.full_name }}{% endblock %}
+{% block page_title %}Check-in Tamu{% endblock %}
 
 {% block content %}
 <div class="max-w-2xl">
     <div class="bg-white rounded-xl border border-slate-200 p-6">
-        <!-- Guest Summary -->
+        <!-- Ringkasan Tamu -->
         <div class="flex items-center gap-4 mb-6 pb-6 border-b border-slate-200">
             <div class="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white font-bold text-xl">
                 {{ reservation.guest.initials }}
@@ -15,38 +15,38 @@
             <div>
                 <h2 class="font-heading font-bold text-xl">{{ reservation.guest.full_name }}</h2>
                 <p class="text-sm text-slate-500">{{ reservation.reservation_code }} · {{ reservation.guest.phone }}</p>
-                <p class="text-sm text-slate-500">{{ reservation.check_in_date|date:"d M Y" }} → {{ reservation.check_out_date|date:"d M Y" }} ({{ reservation.nights }} nights)</p>
+                <p class="text-sm text-slate-500">{{ reservation.check_in_date|date:"d M Y" }} → {{ reservation.check_out_date|date:"d M Y" }} ({{ reservation.nights }} malam)</p>
             </div>
         </div>
 
-        <!-- Room Assignment -->
-        <h3 class="font-heading font-bold mb-3">Room Assignment</h3>
+        <!-- Penugasan Kamar -->
+        <h3 class="font-heading font-bold mb-3">Kamar yang Ditempati</h3>
         {% for rr in reservation_rooms %}
         <div class="flex items-center justify-between py-3 px-4 bg-emerald-50 rounded-lg mb-2">
             <div class="flex items-center gap-3">
                 <span class="font-heading font-bold text-lg text-emerald-700">{{ rr.room.room_number }}</span>
-                <span class="text-sm text-emerald-600">{{ rr.room.room_type.name }} · Floor {{ rr.room.floor }}</span>
+                <span class="text-sm text-emerald-600">{{ rr.room.room_type.name }} · Lantai {{ rr.room.floor }}</span>
             </div>
-            <span class="font-semibold text-sm">{{ rr.rate|idr }}/night</span>
+            <span class="font-semibold text-sm">{{ rr.rate|idr }}/malam</span>
         </div>
         {% endfor %}
 
         <div class="mt-4 p-4 bg-slate-50 rounded-lg">
             <div class="flex justify-between text-sm">
-                <span class="text-slate-500">Total Room Charges ({{ reservation.nights }} nights)</span>
+                <span class="text-slate-500">Total Biaya Kamar ({{ reservation.nights }} malam)</span>
                 <span class="font-heading font-bold text-lg">{{ reservation.total_room_charge|idr }}</span>
             </div>
         </div>
 
-        <!-- Check-in Action -->
+        <!-- Tombol Check-in -->
         <form method="post" action="{% url 'frontdesk:checkin' reservation.pk %}" class="mt-6">
             {% csrf_token %}
             <div class="flex gap-3">
                 <button type="submit" class="btn btn-manta rounded-lg gap-2 flex-1">
                     <i data-lucide="check-circle" class="w-5 h-5"></i>
-                    Confirm Check-In
+                    Konfirmasi Check-in
                 </button>
-                <a href="{% url 'frontdesk:board' %}" class="btn btn-ghost rounded-lg">Cancel</a>
+                <a href="{% url 'frontdesk:board' %}" class="btn btn-ghost rounded-lg">Batal</a>
             </div>
         </form>
     </div>

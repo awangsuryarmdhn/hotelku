@@ -1,46 +1,46 @@
 {% extends "base.html" %}
 {% load manta_tags %}
 
-{% block title %}Walk-in Guest{% endblock %}
-{% block page_title %}Walk-in Guest{% endblock %}
+{% block title %}Tamu Walk-in{% endblock %}
+{% block page_title %}Tamu Walk-in{% endblock %}
 
 {% block content %}
 <div class="max-w-3xl">
     <div class="bg-white rounded-xl border border-slate-200 p-6">
         <div class="alert alert-info mb-6 rounded-xl">
             <i data-lucide="info" class="w-5 h-5"></i>
-            <span>Walk-in flow: First register the guest, then create a reservation and check them in.</span>
+            <span>Prosedur walk-in: Pertama daftarkan tamu baru, lalu buat reservasi dan lakukan check-in.</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Step 1 -->
+            <!-- Langkah 1 -->
             <div class="border border-slate-200 rounded-xl p-5">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-bold">1</div>
-                    <h3 class="font-heading font-bold">Register Guest</h3>
+                    <h3 class="font-heading font-bold">Daftarkan Tamu</h3>
                 </div>
-                <p class="text-sm text-slate-500 mb-4">Create a new guest profile with ID details.</p>
+                <p class="text-sm text-slate-500 mb-4">Buat profil tamu baru dengan data identitas.</p>
                 <a href="{% url 'guests:create' %}" class="btn btn-manta btn-sm w-full rounded-lg gap-1">
-                    <i data-lucide="user-plus" class="w-4 h-4"></i> Register Guest
+                    <i data-lucide="user-plus" class="w-4 h-4"></i> Daftar Tamu Baru
                 </a>
             </div>
 
-            <!-- Step 2 -->
+            <!-- Langkah 2 -->
             <div class="border border-slate-200 rounded-xl p-5">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-bold">2</div>
-                    <h3 class="font-heading font-bold">Create Booking</h3>
+                    <h3 class="font-heading font-bold">Buat Reservasi</h3>
                 </div>
-                <p class="text-sm text-slate-500 mb-4">Select room, dates, and assign guest.</p>
+                <p class="text-sm text-slate-500 mb-4">Pilih kamar, tanggal menginap, dan tamu.</p>
                 <a href="{% url 'reservations:create' %}" class="btn btn-outline btn-sm w-full rounded-lg gap-1">
-                    <i data-lucide="calendar-plus" class="w-4 h-4"></i> New Reservation
+                    <i data-lucide="calendar-plus" class="w-4 h-4"></i> Buat Reservasi Baru
                 </a>
             </div>
         </div>
 
         {% if available_rooms %}
         <div class="mt-6 pt-6 border-t border-slate-200">
-            <h4 class="font-heading font-bold mb-3">Available Rooms ({{ today|date:"d M Y" }})</h4>
+            <h4 class="font-heading font-bold mb-3">Kamar Tersedia ({{ today|date:"d M Y" }})</h4>
             <div class="flex flex-wrap gap-2">
                 {% for room in available_rooms %}
                 <div class="room-card available !min-w-[80px]">

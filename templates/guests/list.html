@@ -1,36 +1,36 @@
 {% extends "base.html" %}
 {% load manta_tags %}
 
-{% block title %}Guests{% endblock %}
-{% block page_title %}Guest Management{% endblock %}
+{% block title %}Data Tamu{% endblock %}
+{% block page_title %}Manajemen Data Tamu{% endblock %}
 
 {% block page_actions %}
-<button hx-get="{% url 'guests:create' %}" hx-target="#global-modal-content" class="btn btn-manta btn-sm gap-1 rounded-lg">
-    <i data-lucide="user-plus" class="w-4 h-4"></i> Register Guest
+<button hx-get="{% url 'guests:create' %}" hx-target="#global-modal-content" hx-swap="innerHTML" class="btn btn-manta btn-sm gap-1 rounded-lg">
+    <i data-lucide="user-plus" class="w-4 h-4"></i> Daftar Tamu Baru
 </button>
 {% endblock %}
 
 {% block content %}
-<!-- Search -->
+<!-- Pencarian -->
 <div class="bg-white rounded-xl border border-slate-200 p-4 mb-6">
     <form method="get" hx-get="{% url 'guests:list' %}" hx-target="#guest-table" hx-push-url="true" class="flex gap-3">
-        <input type="text" name="q" value="{{ search_query }}" placeholder="Search by name, phone, or ID..."
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Cari nama, telepon, atau nomor ID..."
                class="input input-bordered w-full max-w-md" hx-trigger="keyup changed delay:300ms">
         <button type="submit" class="btn btn-ghost"><i data-lucide="search" class="w-4 h-4"></i></button>
     </form>
 </div>
 
-<!-- Guest Table -->
+<!-- Tabel Tamu -->
 <div id="guest-table" class="data-table">
     <table>
         <thead>
             <tr>
-                <th>Guest</th>
-                <th>Phone</th>
-                <th>ID Type</th>
-                <th>Nationality</th>
-                <th>Stays</th>
-                <th>Actions</th>
+                <th>Nama Tamu</th>
+                <th>Telepon</th>
+                <th>Jenis ID</th>
+                <th>Kebangsaan</th>
+                <th>Kunjungan</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -55,7 +55,7 @@
                 <td class="text-sm">{{ guest.nationality }}</td>
                 <td><span class="badge badge-ghost badge-sm">{{ guest.total_stays }}</span></td>
                 <td>
-                    <button hx-get="{% url 'guests:edit' guest.pk %}" hx-target="#global-modal-content" class="btn btn-ghost btn-xs" onclick="event.stopPropagation()">
+                    <button hx-get="{% url 'guests:edit' guest.pk %}" hx-target="#global-modal-content" hx-swap="innerHTML" class="btn btn-ghost btn-xs" onclick="event.stopPropagation()">
                         <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                     </button>
                 </td>
@@ -64,13 +64,13 @@
             <tr>
                 <td colspan="6" class="text-center py-12 text-slate-400">
                     <i data-lucide="users" class="w-12 h-12 mx-auto mb-3 opacity-30"></i>
-                    <p class="font-medium">No guests registered yet</p>
-                    <a href="{% url 'guests:create' %}" class="btn btn-manta btn-sm mt-3">Register First Guest</a>
+                    <p class="font-medium">Belum ada tamu terdaftar</p>
+                    <a href="{% url 'guests:create' %}" class="btn btn-manta btn-sm mt-3">Daftar Tamu Pertama</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-<div class="text-sm text-slate-400 mt-3">Showing {{ guests|length }} of {{ total_guests }} guests</div>
+<div class="text-sm text-slate-400 mt-3">Menampilkan {{ guests|length }} dari {{ total_guests }} tamu</div>
 {% endblock %}

@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% load manta_tags %}
 
-{% block title %}Housekeeping{% endblock %}
-{% block page_title %}Housekeeping Board{% endblock %}
+{% block title %}Tata Graha{% endblock %}
+{% block page_title %}Papan Tata Graha{% endblock %}
 
 {% block content %}
-<!-- Kanban Board -->
+<!-- Papan Kanban -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-    <!-- Pending -->
+    <!-- Menunggu -->
     <div class="kanban-column">
         <div class="kanban-column-header">
             <div class="flex items-center gap-2">
                 <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-                Pending
+                Menunggu
             </div>
             <span class="badge badge-warning badge-sm">{{ pending.count }}</span>
         </div>
@@ -24,27 +24,30 @@
             </div>
             <div class="text-xs text-slate-500 mb-2">{{ task.get_task_type_display }}</div>
             {% if task.assigned_to %}
-            <div class="text-xs text-slate-400">Assigned: {{ task.assigned_to.display_name }}</div>
+            <div class="text-xs text-slate-400">Petugas: {{ task.assigned_to.display_name }}</div>
             {% endif %}
             <div class="flex gap-1 mt-3">
-                <form method="post" action="{% url 'housekeeping:update' task.pk %}" hx-post="{% url 'housekeeping:update' task.pk %}" hx-target="#task-{{ task.pk }}" hx-swap="outerHTML">
+                <form method="post" action="{% url 'housekeeping:update' task.pk %}"
+                      hx-post="{% url 'housekeeping:update' task.pk %}"
+                      hx-target="#task-{{ task.pk }}"
+                      hx-swap="outerHTML">
                     {% csrf_token %}
                     <input type="hidden" name="status" value="in_progress">
-                    <button class="btn btn-xs btn-manta rounded">Start</button>
+                    <button class="btn btn-xs btn-manta rounded">Mulai</button>
                 </form>
             </div>
         </div>
         {% empty %}
-        <p class="text-sm text-slate-400 text-center py-4">No pending tasks</p>
+        <p class="text-sm text-slate-400 text-center py-4">Tidak ada tugas tertunda</p>
         {% endfor %}
     </div>
 
-    <!-- In Progress -->
+    <!-- Dikerjakan -->
     <div class="kanban-column">
         <div class="kanban-column-header">
             <div class="flex items-center gap-2">
                 <div class="w-3 h-3 rounded-full bg-sky-400"></div>
-                In Progress
+                Dikerjakan
             </div>
             <span class="badge badge-info badge-sm">{{ in_progress.count }}</span>
         </div>
@@ -60,20 +63,20 @@
             <form method="post" action="{% url 'housekeeping:update' task.pk %}" class="mt-3">
                 {% csrf_token %}
                 <input type="hidden" name="status" value="completed">
-                <button class="btn btn-xs btn-success rounded">Done</button>
+                <button class="btn btn-xs btn-success rounded">Selesai</button>
             </form>
         </div>
         {% empty %}
-        <p class="text-sm text-slate-400 text-center py-4">No tasks in progress</p>
+        <p class="text-sm text-slate-400 text-center py-4">Tidak ada tugas dikerjakan</p>
         {% endfor %}
     </div>
 
-    <!-- Completed -->
+    <!-- Selesai -->
     <div class="kanban-column">
         <div class="kanban-column-header">
             <div class="flex items-center gap-2">
                 <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
-                Completed
+                Selesai
             </div>
             <span class="badge badge-success badge-sm">{{ completed.count }}</span>
         </div>
@@ -86,30 +89,30 @@
             <form method="post" action="{% url 'housekeeping:update' task.pk %}" class="mt-3">
                 {% csrf_token %}
                 <input type="hidden" name="status" value="inspected">
-                <button class="btn btn-xs btn-outline btn-success rounded">✓ Inspect</button>
+                <button class="btn btn-xs btn-outline btn-success rounded">✓ Inspeksi</button>
             </form>
         </div>
         {% empty %}
-        <p class="text-sm text-slate-400 text-center py-4">No completed tasks</p>
+        <p class="text-sm text-slate-400 text-center py-4">Tidak ada tugas selesai</p>
         {% endfor %}
     </div>
 
-    <!-- Inspected -->
+    <!-- Diperiksa -->
     <div class="kanban-column">
         <div class="kanban-column-header">
             <div class="flex items-center gap-2">
                 <div class="w-3 h-3 rounded-full bg-violet-400"></div>
-                Inspected
+                Diperiksa
             </div>
             <span class="badge badge-ghost badge-sm">{{ inspected.count }}</span>
         </div>
         {% for task in inspected %}
         <div class="kanban-card opacity-60">
             <div class="font-heading font-bold text-lg">{{ task.room.room_number }}</div>
-            <div class="text-xs text-emerald-600 font-medium">✓ Room Available</div>
+            <div class="text-xs text-emerald-600 font-medium">✓ Kamar Siap</div>
         </div>
         {% empty %}
-        <p class="text-sm text-slate-400 text-center py-4">No inspected rooms</p>
+        <p class="text-sm text-slate-400 text-center py-4">Belum ada kamar diperiksa</p>
         {% endfor %}
     </div>
 </div>

@@ -7,7 +7,7 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control w-full">
-                <label class="label"><span class="label-text font-semibold">Full Name</span></label>
+                <label class="label"><span class="label-text font-semibold">Nama Lengkap</span></label>
                 {{ form.full_name }}
             </div>
             <div class="form-control w-full">
@@ -18,22 +18,22 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control w-full">
-                <label class="label"><span class="label-text font-semibold">Phone</span></label>
+                <label class="label"><span class="label-text font-semibold">No. Telepon</span></label>
                 {{ form.phone }}
             </div>
             <div class="form-control w-full">
-                <label class="label"><span class="label-text font-semibold">Nationality</span></label>
+                <label class="label"><span class="label-text font-semibold">Kebangsaan</span></label>
                 {{ form.nationality }}
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control w-full">
-                <label class="label"><span class="label-text font-semibold">ID Type</span></label>
+                <label class="label"><span class="label-text font-semibold">Jenis ID</span></label>
                 {{ form.id_type }}
             </div>
             <div class="form-control w-full">
-                <label class="label"><span class="label-text font-semibold">ID Number</span></label>
+                <label class="label"><span class="label-text font-semibold">Nomor ID</span></label>
                 {{ form.id_number }}
             </div>
         </div>
@@ -41,12 +41,12 @@
         <div class="form-control w-full">
             <label class="label cursor-pointer justify-start gap-3">
                 {{ form.is_vip }}
-                <span class="label-text font-semibold">Mark as VIP Guest</span>
+                <span class="label-text font-semibold">Tandai sebagai Tamu VIP</span>
             </label>
         </div>
 
         <div class="modal-action">
-            <button type="submit" class="btn btn-manta w-full">Save Guest Profile</button>
+            <button type="submit" class="btn btn-manta w-full">Simpan Data Tamu</button>
         </div>
     </form>
 </div>

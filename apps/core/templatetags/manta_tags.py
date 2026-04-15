@@ -30,28 +30,31 @@ def status_badge(value):
     Usage: {{ room.status|status_badge }}
     """
     badge_map = {
-        # Room statuses
-        'available': ('Available', 'badge-success'),
-        'occupied': ('Occupied', 'badge-error'),
-        'dirty': ('Dirty', 'badge-warning'),
-        'maintenance': ('Maintenance', 'badge-info'),
-        'out_of_order': ('Out of Order', 'badge-ghost'),
-        # Reservation statuses
-        'confirmed': ('Confirmed', 'badge-success'),
-        'tentative': ('Tentative', 'badge-warning'),
-        'checked_in': ('Checked In', 'badge-info'),
-        'checked_out': ('Checked Out', 'badge-ghost'),
-        'cancelled': ('Cancelled', 'badge-error'),
-        'no_show': ('No Show', 'badge-error'),
-        # Housekeeping
-        'pending': ('Pending', 'badge-warning'),
-        'in_progress': ('In Progress', 'badge-info'),
-        'completed': ('Completed', 'badge-success'),
-        'inspected': ('Inspected', 'badge-success'),
-        # Payment
-        'unpaid': ('Unpaid', 'badge-error'),
-        'partial': ('Partial', 'badge-warning'),
-        'paid': ('Paid', 'badge-success'),
+        # Status kamar
+        'available': ('Tersedia', 'badge-success'),
+        'occupied': ('Terisi', 'badge-error'),
+        'dirty': ('Kotor', 'badge-warning'),
+        'maintenance': ('Perbaikan', 'badge-info'),
+        'out_of_order': ('Rusak', 'badge-ghost'),
+        # Status reservasi
+        'confirmed': ('Terkonfirmasi', 'badge-success'),
+        'tentative': ('Tentatif', 'badge-warning'),
+        'checked_in': ('Check-in', 'badge-info'),
+        'checked_out': ('Check-out', 'badge-ghost'),
+        'cancelled': ('Dibatalkan', 'badge-error'),
+        'no_show': ('Tidak Hadir', 'badge-error'),
+        # Tata graha
+        'pending': ('Menunggu', 'badge-warning'),
+        'in_progress': ('Dikerjakan', 'badge-info'),
+        'completed': ('Selesai', 'badge-success'),
+        'inspected': ('Diperiksa', 'badge-success'),
+        # Pembayaran
+        'unpaid': ('Belum Bayar', 'badge-error'),
+        'partial': ('Sebagian', 'badge-warning'),
+        'paid': ('Lunas', 'badge-success'),
+        # Folio
+        'open': ('Terbuka', 'badge-info'),
+        'closed': ('Ditutup', 'badge-ghost'),
     }
 
     label, css_class = badge_map.get(value, (str(value).title(), 'badge-ghost'))
