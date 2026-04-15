@@ -18,17 +18,17 @@
 </head>
 <body class="min-h-screen flex">
     <!-- Page Loading Bar -->
-    <div id="page-loading-bar" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#0ea5e9,#38bdf8);z-index:9999;transition:width 0.3s ease,opacity 0.3s ease;opacity:0;"></div>
+    <div id="page-loading-bar" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#14b8a6,#5eead4);z-index:9999;transition:width 0.3s ease,opacity 0.3s ease;opacity:0;"></div>
     <!-- Left Panel — Branding -->
-    <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0c1425] relative overflow-hidden">
+    <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#0f172a] via-[#134e4a] to-[#0f766e] relative overflow-hidden">
         <!-- Decorative elements -->
-        <div class="absolute top-0 right-0 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-teal-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
         <div class="flex flex-col justify-center px-16 relative z-10">
             <div class="flex items-center gap-4 mb-8">
-                <div class="w-14 h-14 bg-gradient-to-br from-[#d4a853] to-[#e5c07b] rounded-2xl flex items-center justify-center text-[#0f172a] font-extrabold text-2xl shadow-lg">
-                    M
+                <div class="w-14 h-14 bg-gradient-to-br from-[#14b8a6] to-[#0d9488] rounded-2xl flex items-center justify-center text-white font-extrabold text-2xl shadow-lg" style="box-shadow: 0 8px 24px rgba(20,184,166,0.4)">
+                    G
                 </div>
                 <div>
                     <h1 class="text-3xl font-extrabold text-white font-heading tracking-tight">{{ hotel_name }}</h1>
@@ -37,9 +37,9 @@
             </div>
 
             <h2 class="text-4xl font-extrabold text-white font-heading leading-tight mb-4">
-                Manage your<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-300">hotel operations</span><br>
-                with confidence.
+                Kelola operasi<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-300">hotel Anda</span><br>
+                dengan percaya diri.
             </h2>
 
             <p class="text-slate-400 text-lg leading-relaxed max-w-md">
@@ -82,16 +82,16 @@
         <div class="w-full max-w-md">
             <!-- Mobile brand -->
             <div class="flex items-center gap-3 mb-8 lg:hidden">
-                <div class="w-11 h-11 bg-gradient-to-br from-[#d4a853] to-[#e5c07b] rounded-xl flex items-center justify-center text-[#0f172a] font-extrabold text-lg">
-                    M
+                <div class="w-11 h-11 bg-gradient-to-br from-[#14b8a6] to-[#0d9488] rounded-xl flex items-center justify-center text-white font-extrabold text-lg" style="box-shadow:0 4px 12px rgba(20,184,166,0.3)">
+                    G
                 </div>
                 <div>
                     <h1 class="text-xl font-extrabold text-slate-900 font-heading">{{ hotel_name }}</h1>
                 </div>
             </div>
 
-            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Welcome back</h2>
-            <p class="text-slate-500 mt-1 mb-8">Sign in to access your dashboard</p>
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Selamat datang kembali</h2>
+            <p class="text-slate-500 mt-1 mb-8">Masuk untuk mengakses dasbor Anda</p>
 
             {% if form.non_field_errors %}
             <div class="alert alert-error mb-6 rounded-xl">

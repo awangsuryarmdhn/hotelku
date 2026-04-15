@@ -16,8 +16,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     DEBUG=(bool, False),
     ALLOWED_HOSTS=(list, ['localhost', '127.0.0.1']),
-    TIMEZONE=(str, 'Asia/Makassar'),
-    HOTEL_NAME=(str, 'MantaHotel'),
+    TIMEZONE=(str, 'Asia/Pontianak'),
+    HOTEL_NAME=(str, 'Grand Nirwana Hotel'),
     HOTEL_TAX_RATE=(int, 10),
     HOTEL_SERVICE_CHARGE=(int, 11),
 )
