@@ -14,31 +14,34 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Fonts (local — no external request) -->
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
 
-    <!-- DaisyUI + Tailwind -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI (local — no CDN) -->
+    <link rel="stylesheet" href="{% static 'css/daisyui.min.css' %}">
+
+    <!-- Tailwind Play CDN (local — no CDN) -->
+    <script src="{% static 'js/tailwind.min.js' %}"></script>
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
 
-    <!-- HTMX -->
-    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+    <!-- HTMX (local — no CDN) -->
+    <script src="{% static 'js/htmx.min.js' %}"></script>
 
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+    <!-- Alpine.js (local — no CDN) -->
+    <script defer src="{% static 'js/alpine.min.js' %}"></script>
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <!-- Lucide Icons (local — no CDN) -->
+    <script src="{% static 'js/lucide.min.js' %}"></script>
 </head>
 <body class="min-h-screen bg-slate-100">
     {% csrf_token %}
 
-    <!-- ── Sidebar Backdrop ─────────────────────── -->
+    <!-- ── Page Loading Bar ────────────────────── -->
+    <div id="page-loading-bar"></div>
+
+    <!-- ── Sidebar Backdrop ─────────────────────────────────── -->
     <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
     <!-- ── Sidebar ──────────────────────────────── -->
@@ -98,11 +101,11 @@
                 </a>
                 <a href="{% url 'billing:list' %}" class="sidebar-link {% active_nav request 'billing' %}">
                     <i data-lucide="receipt"></i>
-                    <span>Tagihan & Invoice</span>
+                    <span>Tagihan &amp; Invoice</span>
                 </a>
                 <a href="{% url 'pos:terminal' %}" class="sidebar-link {% active_nav request 'pos' %}">
                     <i data-lucide="utensils-crossed"></i>
-                    <span>Kasir (F&B)</span>
+                    <span>Kasir (F&amp;B)</span>
                 </a>
                 <a href="{% url 'inventory:list' %}" class="sidebar-link {% active_nav request 'inventory' %}">
                     <i data-lucide="package"></i>
@@ -171,7 +174,7 @@
 
         <!-- Page Content -->
         <div class="page-content">
-            <!-- Toast Messages -->
+            <!-- Toast Messages (Django) -->
             {% if messages %}
             <div class="toast-container">
                 {% for message in messages %}
@@ -186,7 +189,7 @@
         </div>
     </main>
 
-    <!-- Scripts -->
+    <!-- Scripts (bottom — non-blocking) -->
     <script src="{% static 'js/app.js' %}"></script>
 </body>
 </html>
